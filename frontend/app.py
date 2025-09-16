@@ -182,7 +182,7 @@ if custom_theme:
         "Cursive": "cursive",
         "Comic Sans": "'Comic Sans MS', cursive, sans-serif"
     }
-    border_radius = "24px"  # Keep rounded corners for fall coziness
+    border_radius = "24px"
     border_style_css = {
         "Solid": "solid",
         "Dashed": "dashed",
@@ -191,11 +191,19 @@ if custom_theme:
         "None": "none"
     }
     box_shadow = "0 8px 32px rgba(186,107,54,0.13)" if custom_theme.get("card_shadow", True) else "none"
+    # Plaid background using CSS gradients
     st.markdown(
         f"""
         <style>
         body {{
-            background: repeating-linear-gradient(135deg, {custom_theme.get('bg_color', '#FFF8F1')}, #FFF8F1 60px, #F5E3D0 120px, {custom_theme.get('bg_color', '#FFF8F1')} 180px) !important;
+            background-color: {custom_theme.get('bg_color', '#FFF8F1')} !important;
+            background-image:
+                repeating-linear-gradient(135deg, #F5E3D0 0px, #F5E3D0 20px, transparent 20px, transparent 40px),
+                repeating-linear-gradient(45deg, #E2B07A 0px, #E2B07A 12px, transparent 12px, transparent 40px),
+                repeating-linear-gradient(135deg, #FFDAB9 0px, #FFDAB9 8px, transparent 8px, transparent 40px),
+                repeating-linear-gradient(45deg, #FFF8F1 0px, #FFF8F1 8px, transparent 8px, transparent 40px);
+            background-size: 80px 80px, 80px 80px, 40px 40px, 40px 40px;
+            background-position: 0 0, 0 0, 0 0, 0 0;
         }}
         .stApp {{
             font-family: {font_map.get(custom_theme.get("font_choice"), "Georgia, serif")};
