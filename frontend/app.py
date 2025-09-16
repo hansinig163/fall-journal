@@ -56,7 +56,7 @@ st.markdown(
 
 st.title("🍁 September Fall Journal  ✨🎃")
 st.markdown(
-    "<div style='font-size:1.2em; color:#B86B36; font-family:Georgia,serif;'>"
+    "<div style='font-size:1.2em; color:#B86L36; font-family:Georgia,serif;'>"
     "A cozy place to jot your thoughts — mood tags, prompts, and soft aesthetics. "
     "<span style='font-size:1.3em;'>🍂🧡💖</span>"
     "</div>",
@@ -175,41 +175,27 @@ st.markdown("<div style='height:12px;'></div>", unsafe_allow_html=True)
 # Apply custom theme (advanced fall stickers)
 custom_theme = st.session_state.get("custom_theme", {})
 if custom_theme:
-    font_map = {
-        "Serif (Georgia)": "Georgia, serif",
-        "Sans Serif": "sans-serif",
-        "Monospace": "monospace",
-        "Cursive": "cursive",
-        "Comic Sans": "'Comic Sans MS', cursive, sans-serif"
-    }
-    border_radius = "24px"
-    border_style_css = {
-        "Solid": "solid",
-        "Dashed": "dashed",
-        "Dotted": "dotted",
-        "Double": "double",
-        "None": "none"
-    }
-    box_shadow = "0 8px 32px rgba(186,107,54,0.13)" if custom_theme.get("card_shadow", True) else "none"
-    # Changed the plaid background CSS to apply to .stApp instead of body.
-    # This ensures the plaid pattern is visible in Streamlit's main container.
+    # I changed the CSS for the background to use a light, square, straight plaid pattern.
+    # This uses repeating-linear-gradient with 0deg and 90deg for vertical and horizontal lines,
+    # and lighter colors for a subtle plaid effect.
+    # I also made the entry text bold for better visibility by adding font-weight:bold to the entry text div.
     st.markdown(
         f"""
         <style>
         .stApp {{
             background-color: {custom_theme.get('bg_color', '#FFF8F1')} !important;
             background-image:
-                repeating-linear-gradient(135deg, #F5E3D0 0px, #F5E3D0 20px, transparent 20px, transparent 40px),
-                repeating-linear-gradient(45deg, #E2B07A 0px, #E2B07A 12px, transparent 12px, transparent 40px),
-                repeating-linear-gradient(135deg, #FFDAB9 0px, #FFDAB9 8px, transparent 8px, transparent 40px),
-                repeating-linear-gradient(45deg, #FFF8F1 0px, #FFF8F1 8px, transparent 8px, transparent 40px);
-            background-size: 80px 80px, 80px 80px, 40px 40px, 40px 40px;
+                repeating-linear-gradient(0deg, #F5E3D0 0, #F5E3D0 2px, transparent 2px, transparent 40px),
+                repeating-linear-gradient(90deg, #F5E3D0 0, #F5E3D0 2px, transparent 2px, transparent 40px),
+                repeating-linear-gradient(0deg, #FFEEDB 0, #FFEEDB 1px, transparent 1px, transparent 20px),
+                repeating-linear-gradient(90deg, #FFEEDB 0, #FFEEDB 1px, transparent 1px, transparent 20px);
+            background-size: 40px 40px, 40px 40px, 20px 20px, 20px 20px;
             background-position: 0 0, 0 0, 0 0, 0 0;
             font-family: {font_map.get(custom_theme.get("font_choice"), "Georgia, serif")};
             font-size: {custom_theme.get("font_size", 17)}px;
         }}
         .journal-card {{
-            border-left: 8px {border_style_css.get(custom_theme.get('border_style', 'Solid'), 'solid')} {custom_theme.get('primary_color', '#B86B36')};
+            border-left: 8px {border_style_css.get(custom_theme.get('border_style', 'Solid'), 'solid')} {custom_theme.get('primary_color', '#B86L36')};
             border-radius: {border_radius};
             box-shadow: {box_shadow};
             background: linear-gradient(100deg, #FFF8F1 80%, #F5E3D0 100%);
@@ -234,7 +220,7 @@ if custom_theme:
         .stExpanderHeader {{
             font-size: 1.1em !important;
             font-weight: bold !important;
-            color: {custom_theme.get('primary_color', '#B86B36')} !important;
+            color: {custom_theme.get('primary_color', '#B86L36')} !important;
         }}
         .stExpander {{
             border: 2px solid {custom_theme.get('accent_color', '#E2B07A')} !important;
@@ -268,8 +254,9 @@ if entries:
                 f"{label} <span style='font-size:1.2em;'>🧡✨</span></div>",
                 unsafe_allow_html=True
             )
+            # Entry text is now bold for visibility
             st.markdown(
-                f"<div style='margin-top:8px; font-size:1.08em;'>💬 {row.get('text','')} <span style='font-size:1.2em;'>🎃🍁💖</span></div>",
+                f"<div style='margin-top:8px; font-size:1.08em; font-weight:bold;'>💬 {row.get('text','')} <span style='font-size:1.2em;'>🎃🍁💖</span></div>",
                 unsafe_allow_html=True
             )
 else:
