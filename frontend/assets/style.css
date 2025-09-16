@@ -1,0 +1,164 @@
+/* simple fall styles */
+body {
+  font-family: "Georgia", serif;
+  background: linear-gradient(120deg, #FFF8F1 0%, #F5E3D0 100%);
+  color: #3E2C23;
+  /* Soft fade-in effect */
+  animation: fadeIn 1.2s;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.header {
+  border-radius: 18px;
+  box-shadow: 0 8px 24px rgba(186,107,54,0.10);
+  overflow: hidden;
+  margin-bottom: 18px;
+  border: 2px solid #F5E3D0;
+}
+.journal-card {
+  border-radius: 16px;
+  padding: 22px;
+  margin-bottom: 16px;
+  background: linear-gradient(180deg, #FFF8F1 70%, #F5E3D0 100%);
+  box-shadow: 0 6px 18px rgba(186,107,54,0.08);
+  border: 1.5px solid #E2B07A;
+  position: relative;
+  transition: transform 0.12s;
+}
+.journal-card:hover {
+  transform: scale(1.012) rotate(-0.5deg);
+  box-shadow: 0 10px 28px rgba(186,107,54,0.13);
+}
+.journal-card::before {
+  content: "🍂";
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  font-size: 1.3em;
+  opacity: 0.18;
+  pointer-events: none;
+}
+.small-muted { font-size: 13px; opacity: .7; font-style: italic; }
+.button {
+  background: linear-gradient(90deg, #B86B36 60%, #E2B07A 100%);
+  color: white;
+  border: none;
+  padding: 12px 26px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  font-family: "Georgia", serif;
+  font-size: 1.08em;
+  box-shadow: 0 2px 8px rgba(186,107,54,0.08);
+  transition: background 0.18s, transform 0.12s;
+}
+.button:hover {
+  background: linear-gradient(90deg, #A35A2C 60%, #C98C4A 100%);
+  transform: translateY(-2px) scale(1.03);
+}
+input, textarea {
+  border: 1.5px solid #E2B07A;
+  border-radius: 8px;
+  padding: 12px;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: "Georgia", serif;
+  background: #FFF8F1;
+  transition: border-color 0.18s, box-shadow 0.18s;
+}
+input:focus, textarea:focus {
+  border-color: #B86B36;
+  outline: none;
+  box-shadow: 0 0 8px rgba(186,107,54,0.18);
+}
+textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+footer, .footer {
+  text-align: center;
+  padding: 22px;
+  font-size: 15px;
+  color: #B86B36;
+  background: none;
+  letter-spacing: 0.03em;
+}
+footer a, .footer a {
+  color: #B86B36;
+  text-decoration: none;
+  font-weight: bold;
+}
+footer a:hover, .footer a:hover {
+  text-decoration: underline;
+}
+.stButton>button {
+  background: linear-gradient(90deg, #B86B36 60%, #E2B07A 100%) !important;
+  color: white !important;
+  border-radius: 8px !important;
+  font-family: "Georgia", serif !important;
+  font-weight: bold !important;
+  font-size: 1.08em !important;
+  box-shadow: 0 2px 8px rgba(186,107,54,0.08) !important;
+  border: none !important;
+  padding: 12px 26px !important;
+  margin-bottom: 8px !important;
+  transition: background 0.18s, transform 0.12s !important;
+}
+.stButton>button:hover {
+  background: linear-gradient(90deg, #A35A2C 60%, #C98C4A 100%) !important;
+  transform: translateY(-2px) scale(1.03) !important;
+}
+.stTextInput>div>input, .stTextArea>div>textarea {
+  background: #FFF8F1 !important;
+  border: 1.5px solid #E2B07A !important;
+  border-radius: 8px !important;
+  font-family: "Georgia", serif !important;
+  font-size: 1.05em !important;
+}
+.stTextInput>div>input:focus, .stTextArea>div>textarea:focus {
+  border-color: #B86B36 !important;
+  box-shadow: 0 0 8px rgba(186,107,54,0.18) !important;
+}
+.stSelectbox>div>div {
+  background: #FFF8F1 !important;
+  border-radius: 8px !important;
+  border: 1.5px solid #E2B07A !important;
+  font-family: "Georgia", serif !important;
+}
+.stSelectbox>div>div:focus {
+  border-color: #B86B36 !important;
+  box-shadow: 0 0 8px rgba(186,107,54,0.18) !important;
+}
+.stSidebar {
+  background: linear-gradient(120deg, #F5E3D0 0%, #FFF8F1 100%) !important;
+  border-radius: 18px 0 0 18px !important;
+  box-shadow: 2px 0 16px rgba(186,107,54,0.07) !important;
+}
+::-webkit-scrollbar {
+  width: 10px;
+  background: #F5E3D0;
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: #E2B07A;
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #B86B36;
+}
+/* Cute autumn leaf accent for headings */
+h1, h2, h3 {
+  font-family: "Georgia", serif;
+  color: #B86B36;
+  position: relative;
+}
+h1::before, h2::before, h3::before {
+  content: "🍁";
+  margin-right: 8px;
+  font-size: 1.1em;
+  vertical-align: middle;
+  opacity: 0.85;
+}
+/* end fall styles */

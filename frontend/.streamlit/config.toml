@@ -1,0 +1,11 @@
+[theme]
+primaryColor = "#B86B36"                # Warm pumpkin
+backgroundColor = "#FFF8F1"             # Soft cream
+secondaryBackgroundColor = "#F5E3D0"    # Light autumn beige
+textColor = "#3E2C23"                   # Deep brown
+font = "serif"                          # Elegant serif font
+# Optional: accent colors for buttons/links
+successColor = "#A3C585"                # Sage green
+warningColor = "#E2B07A"                # Muted gold
+errorColor = "#D97C5A"                  # Burnt orange
+

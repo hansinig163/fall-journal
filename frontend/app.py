@@ -35,48 +35,33 @@ with st.sidebar:
     mood = st.selectbox("Mood", ["✨ Joyful", "😌 Calm", "😕 Meh", "😔 Sad", "🔥 Energized"])
     tags = st.text_input("Tags (comma separated)", placeholder="autumn,coffee,walks")
     entry_text = st.text_area("Write your entry...", height=160)
-    save_local = st.checkbox("Save locally (JSON file)", value=True)
-    use_backend = st.checkbox("Send to optional Java backend", value=False)
-    backend_url = None
-    if use_backend:
-        backend_url = st.text_input("Backend URL", value="http://localhost:8080/api/entries")
-    if st.button("Save Entry"):
+    # Only one cute Save button, no checkboxes for local/backend
+    save_clicked = st.button("🍯 Save Entry", key="save_entry_btn")
+    if save_clicked:
         entry = {
             "date": date.isoformat(),
             "mood": mood,
             "tags": [t.strip() for t in tags.split(",") if t.strip()],
             "text": entry_text
         }
-        # save locally
-        if save_local:
-            data_file = Path("journal_entries.json")
-            if data_file.exists():
-                df = pd.read_json(data_file)
-                df = pd.concat([df, pd.json_normalize([entry])], ignore_index=True)
-            else:
-                df = pd.json_normalize([entry])
-            df.to_json(data_file, orient="records", indent=2, date_format="iso")
-            st.success("Saved locally to journal_entries.json")
-
-        # optional backend
-        if use_backend and backend_url:
-            try:
-                r = requests.post(backend_url, json=entry, timeout=6)
-                if r.ok:
-                    st.success("Sent to backend ✅")
-                else:
-                    st.warning(f"Backend responded: {r.status_code}")
-            except Exception as e:
-                st.error(f"Failed to send to backend: {e}")
+        # Always save locally
+        data_file = Path("journal_entries.json")
+        if data_file.exists():
+            df = pd.read_json(data_file)
+            df = pd.concat([df, pd.json_normalize([entry])], ignore_index=True)
+        else:
+            df = pd.json_normalize([entry])
+        df.to_json(data_file, orient="records", indent=2, date_format="iso")
+        st.success("Saved to your cozy journal! 🍯")
 
 # prompts & quick actions
 st.markdown("## ✨ Quick Prompts")
 col1, col2 = st.columns(2)
 with col1:
-    if st.button("Prompt: 3 small wins today"):
+    if st.button("🌱 Prompt: 3 small wins today", key="prompt_wins"):
         st.info("List 3 tiny wins you had today — even if it's just 'made tea' ☕")
 with col2:
-    if st.button("Prompt: Gratitude"):
+    if st.button("🌻 Prompt: Gratitude", key="prompt_gratitude"):
         st.info("Write 3 people/ things you're grateful for today.")
 
 # viewing entries
