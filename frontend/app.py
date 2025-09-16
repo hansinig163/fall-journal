@@ -47,28 +47,33 @@ with st.sidebar:
     mood = st.selectbox("🌈 Mood", ["✨ Joyful", "😌 Calm", "😕 Meh", "😔 Sad", "🔥 Energized"])
     tags = st.text_input("🏷️ Tags (comma separated)", placeholder="autumn,coffee,walks")
     entry_text = st.text_area("💬 Write your entry...", height=160)
-    
+
     st.markdown("---")
-    st.subheader("🎨 Customize Journal")
-    # Theme color picker
-    primary_color = st.color_picker("Primary Color 🎨", value="#B86B36", key="primary_color")  # Fixed typo in hex code
-    bg_color = st.color_picker("Background Color 🌻", value="#FFF8F1", key="bg_color")
+    st.subheader("🎨 Customize Journal Appearance")
+    st.caption("Personalize how your journal looks and feels:")
+
+    # Grouped customization for clarity and matching entry layout
+    st.markdown("**Colors & Style**")
+    primary_color = st.color_picker("Primary Color 🎨", value="#B86B36", key="primary_color")
     accent_color = st.color_picker("Accent Color 🍯", value="#E2B07A", key="accent_color")
+    bg_color = st.color_picker("Background Color 🌻", value="#FFF8F1", key="bg_color")
     font_choice = st.selectbox(
         "Font Style 🖋️",
         ["Serif (Georgia)", "Sans Serif", "Monospace", "Cursive", "Comic Sans"],
         key="font_choice"
     )
     font_size = st.slider("Font Size 🔠", min_value=14, max_value=24, value=17, step=1, key="font_size")
-    emoji = st.text_input("Favorite Emoji for Entries 🥰", value="🍂", key="fav_emoji")
-    show_header_img = st.checkbox("Show Header Image 🖼️", value=True, key="show_header_img")
     card_shape = st.selectbox("Card Shape 🃏", ["Rounded", "Sharp", "Circle"], key="card_shape")
     card_shadow = st.checkbox("Card Shadow 🌑", value=True, key="card_shadow")
+
+    st.markdown("**Entry Display Options**")
+    emoji = st.text_input("Favorite Emoji for Entries 🥰", value="🍂", key="fav_emoji")
+    show_header_img = st.checkbox("Show Header Image 🖼️", value=True, key="show_header_img")
     entry_order = st.radio("Entry Order ⏳", ["Newest First", "Oldest First"], key="entry_order")
     show_tags = st.checkbox("Show Tags 🏷️", value=True, key="show_tags")
     show_mood = st.checkbox("Show Mood 🌈", value=True, key="show_mood")
     show_date = st.checkbox("Show Date 📅", value=True, key="show_date")
-    
+
     # Save button
     save_clicked = st.button("🍯 Save Entry", key="save_entry_btn")
     if save_clicked:
@@ -82,7 +87,6 @@ with st.sidebar:
         if "entries" not in st.session_state:
             st.session_state["entries"] = []
         st.session_state["entries"].append(entry)
-        # Show the saved date in the sidebar as confirmation
         st.success(f"Saved to your cozy journal! 🍯✨\n\n📅 Saved entry for: {date.strftime('%B %d, %Y')}")
     # Store customization in session state
     st.session_state["custom_theme"] = {
