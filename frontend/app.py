@@ -191,11 +191,12 @@ if custom_theme:
         "None": "none"
     }
     box_shadow = "0 8px 32px rgba(186,107,54,0.13)" if custom_theme.get("card_shadow", True) else "none"
-    # Plaid background using CSS gradients
+    # Changed the plaid background CSS to apply to .stApp instead of body.
+    # This ensures the plaid pattern is visible in Streamlit's main container.
     st.markdown(
         f"""
         <style>
-        body {{
+        .stApp {{
             background-color: {custom_theme.get('bg_color', '#FFF8F1')} !important;
             background-image:
                 repeating-linear-gradient(135deg, #F5E3D0 0px, #F5E3D0 20px, transparent 20px, transparent 40px),
@@ -204,8 +205,6 @@ if custom_theme:
                 repeating-linear-gradient(45deg, #FFF8F1 0px, #FFF8F1 8px, transparent 8px, transparent 40px);
             background-size: 80px 80px, 80px 80px, 40px 40px, 40px 40px;
             background-position: 0 0, 0 0, 0 0, 0 0;
-        }}
-        .stApp {{
             font-family: {font_map.get(custom_theme.get("font_choice"), "Georgia, serif")};
             font-size: {custom_theme.get("font_size", 17)}px;
         }}
