@@ -54,7 +54,7 @@ with st.sidebar:
 
     # Grouped customization for clarity and matching entry layout
     st.markdown("**Colors & Style**")
-    primary_color = st.color_picker("Primary Color 🎨", value="#B86L36", key="primary_color")
+    primary_color = st.color_picker("Primary Color 🎨", value="#B86B36", key="primary_color")  # Fixed typo in hex code
     accent_color = st.color_picker("Accent Color 🍯", value="#E2B07A", key="accent_color")
     bg_color = st.color_picker("Background Color 🌻", value="#FFF8F1", key="bg_color")
     font_choice = st.selectbox(
