@@ -1,4 +1,0 @@
-streamlit==1.24.1
-pandas
-requests
-python-dotenv
