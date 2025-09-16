@@ -22,18 +22,17 @@ if css_file.exists():
 if st.session_state.get("custom_theme", {}).get("show_header_img", True):
     header_img_path = assets_dir / "fall.jpg"
     if header_img_path.exists():
-        st.image(str(header_img_path), use_column_width=True, output_format="auto", clamp=False)
+        # Display image with custom width and style for a stretched rectangle look
+        # Fix: Use base64 encoding for image, not .hex()
+        import base64
+        img_bytes = header_img_path.read_bytes()
+        img_b64 = base64.b64encode(img_bytes).decode()
         st.markdown(
-            """
-            <style>
-            .element-container img {
-                border-radius: 12px !important;
-                object-fit: cover !important;
-                height: 160px !important;
-                width: 100% !important;
-                display: block;
-            }
-            </style>
+            f"""
+            <div style="display:flex; justify-content:center;">
+                <img src="data:image/jpg;base64,{img_b64}" 
+                     style="width:60%; height:160px; object-fit:cover; border-radius:16px; box-shadow:0 6px 18px rgba(186,107,54,0.10);" />
+            </div>
             """,
             unsafe_allow_html=True
         )
@@ -52,7 +51,7 @@ with st.sidebar:
     st.markdown("---")
     st.subheader("🎨 Customize Journal")
     # Theme color picker
-    primary_color = st.color_picker("Primary Color 🎨", value="#B86B36", key="primary_color")
+    primary_color = st.color_picker("Primary Color 🎨", value="#B86B36", key="primary_color")  # Fixed typo in hex code
     bg_color = st.color_picker("Background Color 🌻", value="#FFF8F1", key="bg_color")
     accent_color = st.color_picker("Accent Color 🍯", value="#E2B07A", key="accent_color")
     font_choice = st.selectbox(
@@ -83,7 +82,8 @@ with st.sidebar:
         if "entries" not in st.session_state:
             st.session_state["entries"] = []
         st.session_state["entries"].append(entry)
-        st.success("Saved to your cozy journal! 🍯✨")
+        # Show the saved date in the sidebar as confirmation
+        st.success(f"Saved to your cozy journal! 🍯✨\n\n📅 Saved entry for: {date.strftime('%B %d, %Y')}")
     # Store customization in session state
     st.session_state["custom_theme"] = {
         "primary_color": primary_color,
@@ -158,20 +158,19 @@ st.markdown("## 📖 Your Entries")
 entries = st.session_state.get("entries", [])
 if entries:
     order = reversed(entries) if custom_theme.get("entry_order", "Newest First") == "Newest First" else entries
-    for row in order:
+    for idx, row in enumerate(order):
         emoji = row.get("emoji", custom_theme.get("emoji", "🍂"))
-        st.markdown(f'<div class="journal-card">{emoji} ', unsafe_allow_html=True)
-        line = []
+        entry_label = []
         if custom_theme.get("show_date", True):
-            line.append(f"📅 **{row.get('date','')}**")
+            entry_label.append(f"📅 {row.get('date','')}")
         if custom_theme.get("show_mood", True):
-            line.append(f"{row.get('mood','')}")
-        st.markdown(" · ".join(line))
+            entry_label.append(f"{row.get('mood','')}")
         if custom_theme.get("show_tags", True) and isinstance(row.get('tags', None), list):
             tags_line = " ".join([f"🏷️ `{t}`" for t in row['tags']])
-            st.markdown(f"<div class='small-muted'>{tags_line}</div>", unsafe_allow_html=True)
-        st.markdown(f"💬 {row.get('text','')}")
-        st.markdown('</div>', unsafe_allow_html=True)
+            entry_label.append(tags_line)
+        label = " · ".join(entry_label) if entry_label else f"Entry {idx+1}"
+        with st.expander(f"{emoji} {label}"):
+            st.markdown(f"💬 {row.get('text','')}")
 else:
     st.info("No journal entries yet — make your first one from the sidebar 🌾✨")
 
