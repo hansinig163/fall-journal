@@ -54,7 +54,7 @@ with st.sidebar:
 
     # Grouped customization for clarity and matching entry layout
     st.markdown("**Colors & Style**")
-    primary_color = st.color_picker("Primary Color 🎨", value="#B86B36", key="primary_color")
+    primary_color = st.color_picker("Primary Color 🎨", value="#B86L36", key="primary_color")
     accent_color = st.color_picker("Accent Color 🍯", value="#E2B07A", key="accent_color")
     bg_color = st.color_picker("Background Color 🌻", value="#FFF8F1", key="bg_color")
     font_choice = st.selectbox(
@@ -166,15 +166,16 @@ if entries:
         emoji = row.get("emoji", custom_theme.get("emoji", "🍂"))
         entry_label = []
         if custom_theme.get("show_date", True):
-            entry_label.append(f"📅 {row.get('date','')}")
+            entry_label.append(f"<span style='color:{custom_theme.get('accent_color', '#E2B07A')}; font-weight:bold;'>📅 {row.get('date','')}</span>")
         if custom_theme.get("show_mood", True):
-            entry_label.append(f"{row.get('mood','')}")
+            entry_label.append(f"<span style='color:{custom_theme.get('accent_color', '#E2B07A')};'>{row.get('mood','')}</span>")
         if custom_theme.get("show_tags", True) and isinstance(row.get('tags', None), list):
-            tags_line = " ".join([f"🏷️ `{t}`" for t in row['tags']])
+            tags_line = " ".join([f"<span style='color:{custom_theme.get('accent_color', '#E2B07A')};'>🏷️ `{t}`</span>" for t in row['tags']])
             entry_label.append(tags_line)
         label = " · ".join(entry_label) if entry_label else f"Entry {idx+1}"
-        with st.expander(f"{emoji} {label}"):
-            st.markdown(f"💬 {row.get('text','')}")
+        with st.expander(f"{emoji} ", expanded=False):
+            st.markdown(f"<div style='font-size:1.1em; font-weight:bold;'>{label}</div>", unsafe_allow_html=True)
+            st.markdown(f"<div style='margin-top:8px;'>💬 {row.get('text','')}</div>", unsafe_allow_html=True)
 else:
     st.info("No journal entries yet — make your first one from the sidebar 🌾✨")
 
