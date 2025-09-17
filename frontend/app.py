@@ -195,24 +195,23 @@ border_radius = "18px"
 box_shadow = "0 6px 18px rgba(0,0,0,0.12)" if custom_theme.get("card_shadow", True) else "none"
 
 if custom_theme:
-    # Subtle plaid pattern: white and very light orange (#FFF8F1)
-    # Sidebar: animated falling leaves background using emoji
+    # More visible plaid (white and light orange), fix sidebar scroll, and working falling leaves
     st.markdown(
         f"""
         <style>
         .stApp {{
             background-color: #FFF8F1 !important;
             background-image:
-                repeating-linear-gradient(0deg, #fff 0, #fff 2px, transparent 2px, transparent 40px),
-                repeating-linear-gradient(90deg, #fff 0, #fff 2px, transparent 2px, transparent 40px),
-                repeating-linear-gradient(0deg, #FFF8F1 0, #FFF8F1 1px, transparent 1px, transparent 20px),
-                repeating-linear-gradient(90deg, #FFF8F1 0, #FFF8F1 1px, transparent 1px, transparent 20px);
+                repeating-linear-gradient(0deg, #fff 0, #fff 4px, transparent 4px, transparent 40px),
+                repeating-linear-gradient(90deg, #fff 0, #fff 4px, transparent 4px, transparent 40px),
+                repeating-linear-gradient(0deg, #FFE5B4 0, #FFE5B4 2px, transparent 2px, transparent 20px),
+                repeating-linear-gradient(90deg, #FFE5B4 0, #FFE5B4 2px, transparent 2px, transparent 20px);
             background-size: 40px 40px, 40px 40px, 20px 20px, 20px 20px;
             background-position: 0 0, 0 0, 0 0, 0 0;
             font-family: {font_map.get(custom_theme.get("font_choice"), "Georgia, serif")};
             font-size: {custom_theme.get("font_size", 17)}px;
         }}
-        /* Sidebar with falling leaves effect */
+        /* Sidebar scroll fix and falling leaves container */
         section[data-testid="stSidebar"] > div:first-child {{
             background: linear-gradient(135deg, #fffbe9 0%, #ffe7c2 100%);
             border-radius: 18px;
@@ -220,37 +219,31 @@ if custom_theme:
             padding-top: 12px;
             padding-bottom: 12px;
             position: relative;
-            overflow: hidden;
+            overflow: visible !important;
+            min-height: 100vh;
+        }}
+        /* Make sidebar content scrollable */
+        section[data-testid="stSidebar"] .block-container {{
+            max-height: 90vh;
+            overflow-y: auto;
+            padding-bottom: 60px;
         }}
         /* Falling leaves animation */
         @keyframes fall-leaf {{
-            0% {{ transform: translateY(-40px) rotate(-10deg); opacity: 0.7; }}
+            0% {{ transform: translateY(-60px) rotate(-10deg); opacity: 0.8; }}
             70% {{ opacity: 1; }}
-            100% {{ transform: translateY(340px) rotate(30deg); opacity: 0.2; }}
+            100% {{ transform: translateY(420px) rotate(30deg); opacity: 0.2; }}
         }}
-        section[data-testid="stSidebar"] > div:first-child .fall-leaf {{
+        .fall-leaf {{
             position: absolute;
-            left: 10%;
-            font-size: 2em;
-            opacity: 0.7;
-            animation: fall-leaf 6s linear infinite;
+            z-index: 10;
             pointer-events: none;
+            animation: fall-leaf 7s linear infinite;
         }}
-        section[data-testid="stSidebar"] > div:first-child .fall-leaf2 {{
-            left: 60%;
-            font-size: 1.7em;
-            animation-delay: 1.5s;
-        }}
-        section[data-testid="stSidebar"] > div:first-child .fall-leaf3 {{
-            left: 35%;
-            font-size: 2.3em;
-            animation-delay: 3s;
-        }}
-        section[data-testid="stSidebar"] > div:first-child .fall-leaf4 {{
-            left: 80%;
-            font-size: 1.5em;
-            animation-delay: 2.2s;
-        }}
+        .fall-leaf1 {{ left: 10%; font-size: 2em; animation-delay: 0s; }}
+        .fall-leaf2 {{ left: 60%; font-size: 1.7em; animation-delay: 1.5s; }}
+        .fall-leaf3 {{ left: 35%; font-size: 2.3em; animation-delay: 3s; }}
+        .fall-leaf4 {{ left: 80%; font-size: 1.5em; animation-delay: 2.2s; }}
         .journal-card {{
             border-left: 8px {border_style_css.get(custom_theme.get('border_style', 'Solid'), 'solid')} {custom_theme.get('primary_color', '#B86B36')};
             border-radius: {border_radius};
@@ -285,10 +278,10 @@ if custom_theme:
             background: #FFF8F1 !important;
         }}
         </style>
-        <div class="fall-leaf" style="top:0; animation-duration: 6s;">🍁</div>
-        <div class="fall-leaf fall-leaf2" style="top:-30px; animation-duration: 7s;">🍂</div>
-        <div class="fall-leaf fall-leaf3" style="top:-60px; animation-duration: 8s;">🍃</div>
-        <div class="fall-leaf fall-leaf4" style="top:-20px; animation-duration: 5.5s;">🍁</div>
+        <div class="fall-leaf fall-leaf1" style="top:0; animation-duration: 7s;">🍁</div>
+        <div class="fall-leaf fall-leaf2" style="top:-30px; animation-duration: 8s;">🍂</div>
+        <div class="fall-leaf fall-leaf3" style="top:-60px; animation-duration: 9s;">🍃</div>
+        <div class="fall-leaf fall-leaf4" style="top:-20px; animation-duration: 6.5s;">🍁</div>
         """,
         unsafe_allow_html=True
     )
