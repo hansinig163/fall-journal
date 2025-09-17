@@ -218,27 +218,49 @@ if custom_theme:
             padding-top: 12px;
             padding-bottom: 12px;
             position: relative;
-            overflow: hidden !important;
+            overflow: visible !important;
             display: flex;
             flex-direction: column;
         }}
         .stSidebarContent {{
-            height: 90vh !important;
-            overflow-y: auto !important;
+            height: 100vh !important;
+            overflow-y: scroll !important;
             padding-bottom: 60px;
-            scrollbar-width: thin;
+            scrollbar-width: auto;
             scrollbar-color: #E2B07A #F5E3D0;
+            background: transparent;
         }}
         .stSidebarContent::-webkit-scrollbar {{
-            width: 10px;
+            width: 12px;
             background: #F5E3D0;
             border-radius: 8px;
+            display: block;
         }}
         .stSidebarContent::-webkit-scrollbar-thumb {{
             background: #E2B07A;
             border-radius: 8px;
+            min-height: 40px;
         }}
         .stSidebarContent::-webkit-scrollbar-thumb:hover {{
+            background: #B86B36;
+        }}
+        /* Fallback for older Streamlit: */
+        section[data-testid="stSidebar"] .block-container {{
+            height: 100vh !important;
+            overflow-y: scroll !important;
+        }}
+        section[data-testid="stSidebar"] .block-container::-webkit-scrollbar {{
+            width: 12px;
+            background: #F5E3D0;
+            border-radius: 8px;
+            display: block;
+        }}
+        section[data-testid="stSidebar"] .block-container::-webkit-scrollbar-thumb {{
+            background: #E2B07A;
+            border-radius: 8px;
+            min-height: 40px;
+        }}
+        section[data-testid="stSidebar"] .block-container::-webkit-scrollbar-thumb:hover {{
             background: #B86B36;
         }}
         /* Falling leaves animation */
