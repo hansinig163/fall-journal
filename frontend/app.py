@@ -56,7 +56,7 @@ st.markdown(
 
 st.title("🍁 September Fall Journal  ✨")
 st.markdown(
-    "<div style='font-size:1.2em; color:#B86B36; font-family:Georgia,serif;'>"
+    "<div style='font-size:1.2em; color:#B86L36; font-family:Georgia,serif;'>"
     "A cozy place to jot your thoughts — mood tags, prompts, and soft aesthetics. "
     "<span style='font-size:1.3em;'>🍂🧡💖</span>"
     "</div>",
@@ -195,7 +195,6 @@ border_radius = "18px"
 box_shadow = "0 6px 18px rgba(0,0,0,0.12)" if custom_theme.get("card_shadow", True) else "none"
 
 if custom_theme:
-    # More visible plaid (white and light orange), fix sidebar scroll, and working falling leaves
     st.markdown(
         f"""
         <style>
@@ -212,7 +211,6 @@ if custom_theme:
             font-family: {font_map.get(custom_theme.get("font_choice"), "Georgia, serif")};
             font-size: {custom_theme.get("font_size", 17)}px;
         }}
-        /* Sidebar scroll fix and falling leaves container */
         section[data-testid="stSidebar"] > div:first-child {{
             background: linear-gradient(135deg, #fffbe9 0%, #ffe7c2 100%);
             border-radius: 18px;
@@ -221,16 +219,11 @@ if custom_theme:
             padding-bottom: 12px;
             position: relative;
             overflow: hidden !important;
-            /* Remove min-height and height to allow content to define height */
-            /* min-height: 100vh; */
-            /* height: 100%; */
             display: flex;
             flex-direction: column;
         }}
-        /* Make sidebar content scrollable (fix for Streamlit 1.32+) */
         .stSidebarContent {{
-            flex: 1 1 auto;
-            max-height: 80vh;
+            height: 90vh !important;
             overflow-y: auto !important;
             padding-bottom: 60px;
         }}
