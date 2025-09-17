@@ -376,9 +376,27 @@ if entries:
     for idx, row in enumerate(order):
         emoji = row.get("emoji", custom_theme.get("emoji", "🍂"))
         date_str = row.get('date', '')
-        # Only show the emoji and the date as plain text in the expander label, no HTML
+        tags_list = row.get('tags', [])
+        mood_str = row.get('mood', '')
         expander_label = f"{emoji}  📅 {date_str}"
         with st.expander(expander_label, expanded=False):
+            # Show mood as a subheading if present
+            if mood_str:
+                st.markdown(
+                    f"<div style='margin-bottom:4px; margin-top:2px; font-size:1.08em; color:{accent}; font-family:{font_css}; font-weight:600;'>"
+                    f"{mood_str}</div>",
+                    unsafe_allow_html=True
+                )
+            # Show tags as a subheading if present
+            if tags_list:
+                tags_str = " ".join([
+                    f"<span style='background:#ffe7c2; color:#B86B36; border-radius:8px; padding:2px 10px; margin-right:6px; font-size:1em; font-family:{font_css}; font-weight:600; display:inline-block;'>🏷️ {t}</span>"
+                    for t in tags_list
+                ])
+                st.markdown(
+                    f"<div style='margin-bottom:8px; margin-top:2px;'>{tags_str}</div>",
+                    unsafe_allow_html=True
+                )
             st.markdown(
                 f"<div style='margin-top:8px; font-size:1.08em; font-weight:bold; font-family:{font_css};'>💬 {row.get('text','')}</div>",
                 unsafe_allow_html=True
@@ -393,13 +411,3 @@ if entries:
                     break
 else:
     st.info("No journal entries yet — make your first one from the sidebar 🌾✨🎃💖")
-
-# footer
-st.markdown("---")
-st.markdown(
-    "<div style='font-size:1.1em; text-align:center;'>"
-    "Made with ❤ • Fall vibes 🍁🎃✨💖 • Tips: Use the sidebar to save and customize your journal!"
-    "</div>",
-    unsafe_allow_html=True
-)
-st.markdown('<div class="footer">🍂 Cozy Coding 2025 ✨🎃💖</div>', unsafe_allow_html=True)
