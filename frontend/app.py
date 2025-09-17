@@ -86,32 +86,33 @@ with st.sidebar:
     st.header("📝 New Entry  🍂✨")
     st.markdown(f"<div style='font-size:1em; color:#B86B36;'>Logged in as: <b>{st.session_state['user_email']}</b></div>", unsafe_allow_html=True)
     
-    # Accent color and font selection
-    accent_color = st.color_picker("Accent Color 🍯", value=st.session_state.get("custom_theme", {}).get("accent_color", "#E2B07A"), key="accent_color")
-    font_choice = st.selectbox(
-        "Font Style 🖋️",
-        ["Serif (Georgia)", "Sans Serif", "Monospace", "Cursive", "Comic Sans"],
-        index=["Serif (Georgia)", "Sans Serif", "Monospace", "Cursive", "Comic Sans"].index(
-            st.session_state.get("custom_theme", {}).get("font_choice", "Serif (Georgia)")
-        ) if st.session_state.get("custom_theme", {}).get("font_choice") else 0,
-        key="font_choice"
-    )
-
     # Aesthetic calendar with emoji and accent color
     st.markdown(
-        f"<div style='font-size:1.1em; color:{accent_color}; font-family:{font_choice}; margin-bottom:2px;'>"
+        f"<div style='font-size:1.1em; color:{st.session_state.get('custom_theme', {}).get('accent_color', '#E2B07A')}; font-family:{st.session_state.get('custom_theme', {}).get('font_choice', 'Georgia, serif')}; margin-bottom:2px;'>"
         "📅 <b>Pick a Date for Your Memory</b> 🍂"
         "</div>",
         unsafe_allow_html=True
     )
     date = st.date_input("", value=datetime.date.today(), key="date_input")
-
     mood = st.selectbox("🌈 Mood", [
         "✨ Joyful 🧡", "😌 Calm 🍃", "😕 Meh 🍂", "😔 Sad 💧", "🔥 Energized 🎃"
     ])
     tags = st.text_input("🏷️ Tags (comma separated) 🎃", placeholder="autumn,coffee,walks,🍁,✨")
     entry_text = st.text_area("💬 Write your entry... 💖", height=160)
 
+    # Font and accent color selection at the end, before save button
+    font_choice, accent_color = st.columns(2)
+    with font_choice:
+        font_val = st.selectbox(
+            "Font Style 🖋️",
+            ["Serif (Georgia)", "Sans Serif", "Monospace", "Cursive", "Comic Sans"],
+            index=["Serif (Georgia)", "Sans Serif", "Monospace", "Cursive", "Comic Sans"].index(
+                st.session_state.get("custom_theme", {}).get("font_choice", "Serif (Georgia)")
+            ) if st.session_state.get("custom_theme", {}).get("font_choice") else 0,
+            key="font_choice"
+        )
+    with accent_color:
+        accent_val = st.color_picker("Accent Color 🍯", value=st.session_state.get("custom_theme", {}).get("accent_color", "#E2B07A"), key="accent_color")
     st.markdown("---")
     save_clicked = st.button("🍯✨ Save Entry 🎃", key="save_entry_btn")
     user_key = f"entries_{st.session_state['user_email']}"
@@ -127,8 +128,8 @@ with st.sidebar:
         st.success(f"Saved to your cozy journal! 🍯✨🎃\n\n📅 Saved entry for: {date.strftime('%B %d, %Y')} <span style='font-size:1.3em;'>💖</span>", unsafe_allow_html=True)
     st.session_state["custom_theme"] = {
         "emoji": st.session_state.get("custom_theme", {}).get("emoji", "🍂"),
-        "accent_color": accent_color,
-        "font_choice": font_choice
+        "accent_color": accent_val,
+        "font_choice": font_val
     }
 
 # prompts & quick actions
@@ -180,7 +181,14 @@ if custom_theme:
         f"""
         <style>
         .stApp {{
-            /* ...existing plaid background... */
+            /* Plaid background only, no background-color override */
+            background-image:
+                repeating-linear-gradient(0deg, #fff 0, #fff 4px, transparent 4px, transparent 40px),
+                repeating-linear-gradient(90deg, #fff 0, #fff 4px, transparent 4px, transparent 40px),
+                repeating-linear-gradient(0deg, #FFE5B4 0, #FFE5B4 2px, transparent 2px, transparent 20px),
+                repeating-linear-gradient(90deg, #FFE5B4 0, #FFE5B4 2px, transparent 2px, transparent 20px);
+            background-size: 40px 40px, 40px 40px, 20px 20px, 20px 20px;
+            background-position: 0 0, 0 0, 0 0, 0 0;
             font-family: {font_map.get(custom_theme.get("font_choice"), "Georgia, serif")};
             font-size: {custom_theme.get("font_size", 17) if "font_size" in custom_theme else 17}px;
         }}
