@@ -3,7 +3,7 @@ import streamlit as st
 import pandas as pd
 import datetime
 import requests
-import json
+import json 
 from pathlib import Path
 
 st.set_page_config(page_title="September Fall Journal", page_icon="🍂", layout="centered")
@@ -56,7 +56,7 @@ st.markdown(
 
 st.title("🍁 September Fall Journal  ✨🎃")
 st.markdown(
-    "<div style='font-size:1.2em; color:#B86L36; font-family:Georgia,serif;'>"
+    "<div style='font-size:1.2em; color:#B86B36; font-family:Georgia,serif;'>"
     "A cozy place to jot your thoughts — mood tags, prompts, and soft aesthetics. "
     "<span style='font-size:1.3em;'>🍂🧡💖</span>"
     "</div>",
@@ -174,6 +174,25 @@ st.markdown("<div style='height:12px;'></div>", unsafe_allow_html=True)
 
 # Apply custom theme (advanced fall stickers)
 custom_theme = st.session_state.get("custom_theme", {})
+# helpers for theme
+font_map = {
+    "Serif (Georgia)": "Georgia, serif",
+    "Sans Serif": "Arial, sans-serif",
+    "Monospace": "Courier New, monospace",
+    "Cursive": "Brush Script MT, cursive",
+    "Comic Sans": "'Comic Sans MS', cursive, sans-serif"
+}
+
+border_style_css = {
+    "Solid": "solid",
+    "Dashed": "dashed",
+    "Dotted": "dotted",
+    "Double": "double",
+    "None": "none"
+}
+
+border_radius = "18px"
+box_shadow = "0 6px 18px rgba(0,0,0,0.12)" if custom_theme.get("card_shadow", True) else "none"
 if custom_theme:
     # I changed the CSS for the background to use a light, square, straight plaid pattern.
     # This uses repeating-linear-gradient with 0deg and 90deg for vertical and horizontal lines,
@@ -195,7 +214,7 @@ if custom_theme:
             font-size: {custom_theme.get("font_size", 17)}px;
         }}
         .journal-card {{
-            border-left: 8px {border_style_css.get(custom_theme.get('border_style', 'Solid'), 'solid')} {custom_theme.get('primary_color', '#B86L36')};
+            border-left: 8px {border_style_css.get(custom_theme.get('border_style', 'Solid'), 'solid')} {custom_theme.get('primary_color', '#B86B36')};
             border-radius: {border_radius};
             box-shadow: {box_shadow};
             background: linear-gradient(100deg, #FFF8F1 80%, #F5E3D0 100%);
@@ -220,7 +239,7 @@ if custom_theme:
         .stExpanderHeader {{
             font-size: 1.1em !important;
             font-weight: bold !important;
-            color: {custom_theme.get('primary_color', '#B86L36')} !important;
+            color: {custom_theme.get('primary_color', '#B86B36')} !important;
         }}
         .stExpander {{
             border: 2px solid {custom_theme.get('accent_color', '#E2B07A')} !important;
@@ -266,9 +285,8 @@ else:
 st.markdown("---")
 st.markdown(
     "<div style='font-size:1.1em; text-align:center;'>"
-    "Made with ❤️ • Fall vibes 🍁🎃✨💖 • Tips: Use the sidebar to save and customize your journal!"
+    "Made with ❤ • Fall vibes 🍁🎃✨💖 • Tips: Use the sidebar to save and customize your journal!"
     "</div>",
     unsafe_allow_html=True
 )
 st.markdown('<div class="footer">🍂 Cozy Coding 2025 ✨🎃💖</div>', unsafe_allow_html=True)
-# End of app.py
