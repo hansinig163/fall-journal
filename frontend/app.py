@@ -195,27 +195,26 @@ border_radius = "18px"
 box_shadow = "0 6px 18px rgba(0,0,0,0.12)" if custom_theme.get("card_shadow", True) else "none"
 
 if custom_theme:
-    # Improved plaid pattern for main background (subtle, professional)
-    # Fun fall-themed sidebar background (gradient with leaves)
+    # Subtle plaid pattern: white and very light orange (#FFF8F1)
+    # Sidebar: animated falling leaves background using emoji
     st.markdown(
         f"""
         <style>
         .stApp {{
-            background-color: {custom_theme.get('bg_color', '#FFF8F1')} !important;
+            background-color: #FFF8F1 !important;
             background-image:
-                linear-gradient(135deg, #f7e6d3 0%, #fbeee0 100%),
-                repeating-linear-gradient(0deg, #e7c9a9 0, #e7c9a9 1.5px, transparent 1.5px, transparent 32px),
-                repeating-linear-gradient(90deg, #e7c9a9 0, #e7c9a9 1.5px, transparent 1.5px, transparent 32px),
-                repeating-linear-gradient(0deg, #f3d6b6 0, #f3d6b6 0.5px, transparent 0.5px, transparent 16px),
-                repeating-linear-gradient(90deg, #f3d6b6 0, #f3d6b6 0.5px, transparent 0.5px, transparent 16px);
-            background-size: 100% 100%, 32px 32px, 32px 32px, 16px 16px, 16px 16px;
-            background-position: 0 0, 0 0, 0 0, 0 0, 0 0;
+                repeating-linear-gradient(0deg, #fff 0, #fff 2px, transparent 2px, transparent 40px),
+                repeating-linear-gradient(90deg, #fff 0, #fff 2px, transparent 2px, transparent 40px),
+                repeating-linear-gradient(0deg, #FFF8F1 0, #FFF8F1 1px, transparent 1px, transparent 20px),
+                repeating-linear-gradient(90deg, #FFF8F1 0, #FFF8F1 1px, transparent 1px, transparent 20px);
+            background-size: 40px 40px, 40px 40px, 20px 20px, 20px 20px;
+            background-position: 0 0, 0 0, 0 0, 0 0;
             font-family: {font_map.get(custom_theme.get("font_choice"), "Georgia, serif")};
             font-size: {custom_theme.get("font_size", 17)}px;
         }}
-        /* Sidebar fun fall theme */
+        /* Sidebar with falling leaves effect */
         section[data-testid="stSidebar"] > div:first-child {{
-            background: linear-gradient(135deg, #ffe7c2 0%, #ffe3e0 100%);
+            background: linear-gradient(135deg, #fffbe9 0%, #ffe7c2 100%);
             border-radius: 18px;
             box-shadow: 0 4px 24px rgba(186,107,54,0.10);
             padding-top: 12px;
@@ -223,23 +222,34 @@ if custom_theme:
             position: relative;
             overflow: hidden;
         }}
-        section[data-testid="stSidebar"] > div:first-child::before {{
-            content: "🍁🍂🎃";
+        /* Falling leaves animation */
+        @keyframes fall-leaf {{
+            0% {{ transform: translateY(-40px) rotate(-10deg); opacity: 0.7; }}
+            70% {{ opacity: 1; }}
+            100% {{ transform: translateY(340px) rotate(30deg); opacity: 0.2; }}
+        }}
+        section[data-testid="stSidebar"] > div:first-child .fall-leaf {{
             position: absolute;
-            top: 10px;
-            left: 18px;
-            font-size: 2.2em;
-            opacity: 0.18;
+            left: 10%;
+            font-size: 2em;
+            opacity: 0.7;
+            animation: fall-leaf 6s linear infinite;
             pointer-events: none;
         }}
-        section[data-testid="stSidebar"] > div:first-child::after {{
-            content: "🧡✨💛";
-            position: absolute;
-            bottom: 10px;
-            right: 18px;
-            font-size: 2em;
-            opacity: 0.16;
-            pointer-events: none;
+        section[data-testid="stSidebar"] > div:first-child .fall-leaf2 {{
+            left: 60%;
+            font-size: 1.7em;
+            animation-delay: 1.5s;
+        }}
+        section[data-testid="stSidebar"] > div:first-child .fall-leaf3 {{
+            left: 35%;
+            font-size: 2.3em;
+            animation-delay: 3s;
+        }}
+        section[data-testid="stSidebar"] > div:first-child .fall-leaf4 {{
+            left: 80%;
+            font-size: 1.5em;
+            animation-delay: 2.2s;
         }}
         .journal-card {{
             border-left: 8px {border_style_css.get(custom_theme.get('border_style', 'Solid'), 'solid')} {custom_theme.get('primary_color', '#B86B36')};
@@ -275,6 +285,10 @@ if custom_theme:
             background: #FFF8F1 !important;
         }}
         </style>
+        <div class="fall-leaf" style="top:0; animation-duration: 6s;">🍁</div>
+        <div class="fall-leaf fall-leaf2" style="top:-30px; animation-duration: 7s;">🍂</div>
+        <div class="fall-leaf fall-leaf3" style="top:-60px; animation-duration: 8s;">🍃</div>
+        <div class="fall-leaf fall-leaf4" style="top:-20px; animation-duration: 5.5s;">🍁</div>
         """,
         unsafe_allow_html=True
     )
