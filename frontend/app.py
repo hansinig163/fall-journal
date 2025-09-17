@@ -193,11 +193,9 @@ border_style_css = {
 
 border_radius = "18px"
 box_shadow = "0 6px 18px rgba(0,0,0,0.12)" if custom_theme.get("card_shadow", True) else "none"
+
 if custom_theme:
-    # I changed the CSS for the background to use a light, square, straight plaid pattern.
-    # This uses repeating-linear-gradient with 0deg and 90deg for vertical and horizontal lines,
-    # and lighter colors for a subtle plaid effect.
-    # I also made the entry text bold for better visibility by adding font-weight:bold to the entry text div.
+    # Ensure plaid pattern background is applied
     st.markdown(
         f"""
         <style>
