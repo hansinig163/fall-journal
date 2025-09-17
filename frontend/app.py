@@ -375,14 +375,10 @@ if entries:
     accent = custom_theme.get('accent_color', '#E2B07A')
     for idx, row in enumerate(order):
         emoji = row.get("emoji", custom_theme.get("emoji", "🍂"))
-        # Only show the date in the entry label
         date_str = row.get('date', '')
-        label = f"<span style='color:{accent}; font-weight:bold; font-family:{font_css};'>📅 {date_str}</span>"
-        with st.expander(f"{emoji} <span style='font-family:{font_css}; font-size:1.08em;'>{label}</span>", expanded=False):
-            st.markdown(
-                f"<div style='font-size:1.1em; font-weight:bold; margin-bottom:6px; font-family:{font_css}; color:{accent};'>{label}</div>",
-                unsafe_allow_html=True
-            )
+        # Only show the emoji and the date as plain text in the expander label, no HTML
+        expander_label = f"{emoji}  📅 {date_str}"
+        with st.expander(expander_label, expanded=False):
             st.markdown(
                 f"<div style='margin-top:8px; font-size:1.08em; font-weight:bold; font-family:{font_css};'>💬 {row.get('text','')}</div>",
                 unsafe_allow_html=True
