@@ -195,21 +195,51 @@ border_radius = "18px"
 box_shadow = "0 6px 18px rgba(0,0,0,0.12)" if custom_theme.get("card_shadow", True) else "none"
 
 if custom_theme:
-    # Ensure plaid pattern background is applied
+    # Improved plaid pattern for main background (subtle, professional)
+    # Fun fall-themed sidebar background (gradient with leaves)
     st.markdown(
         f"""
         <style>
         .stApp {{
             background-color: {custom_theme.get('bg_color', '#FFF8F1')} !important;
             background-image:
-                repeating-linear-gradient(0deg, #F5E3D0 0, #F5E3D0 2px, transparent 2px, transparent 40px),
-                repeating-linear-gradient(90deg, #F5E3D0 0, #F5E3D0 2px, transparent 2px, transparent 40px),
-                repeating-linear-gradient(0deg, #FFEEDB 0, #FFEEDB 1px, transparent 1px, transparent 20px),
-                repeating-linear-gradient(90deg, #FFEEDB 0, #FFEEDB 1px, transparent 1px, transparent 20px);
-            background-size: 40px 40px, 40px 40px, 20px 20px, 20px 20px;
-            background-position: 0 0, 0 0, 0 0, 0 0;
+                linear-gradient(135deg, #f7e6d3 0%, #fbeee0 100%),
+                repeating-linear-gradient(0deg, #e7c9a9 0, #e7c9a9 1.5px, transparent 1.5px, transparent 32px),
+                repeating-linear-gradient(90deg, #e7c9a9 0, #e7c9a9 1.5px, transparent 1.5px, transparent 32px),
+                repeating-linear-gradient(0deg, #f3d6b6 0, #f3d6b6 0.5px, transparent 0.5px, transparent 16px),
+                repeating-linear-gradient(90deg, #f3d6b6 0, #f3d6b6 0.5px, transparent 0.5px, transparent 16px);
+            background-size: 100% 100%, 32px 32px, 32px 32px, 16px 16px, 16px 16px;
+            background-position: 0 0, 0 0, 0 0, 0 0, 0 0;
             font-family: {font_map.get(custom_theme.get("font_choice"), "Georgia, serif")};
             font-size: {custom_theme.get("font_size", 17)}px;
+        }}
+        /* Sidebar fun fall theme */
+        section[data-testid="stSidebar"] > div:first-child {{
+            background: linear-gradient(135deg, #ffe7c2 0%, #ffe3e0 100%);
+            border-radius: 18px;
+            box-shadow: 0 4px 24px rgba(186,107,54,0.10);
+            padding-top: 12px;
+            padding-bottom: 12px;
+            position: relative;
+            overflow: hidden;
+        }}
+        section[data-testid="stSidebar"] > div:first-child::before {{
+            content: "🍁🍂🎃";
+            position: absolute;
+            top: 10px;
+            left: 18px;
+            font-size: 2.2em;
+            opacity: 0.18;
+            pointer-events: none;
+        }}
+        section[data-testid="stSidebar"] > div:first-child::after {{
+            content: "🧡✨💛";
+            position: absolute;
+            bottom: 10px;
+            right: 18px;
+            font-size: 2em;
+            opacity: 0.16;
+            pointer-events: none;
         }}
         .journal-card {{
             border-left: 8px {border_style_css.get(custom_theme.get('border_style', 'Solid'), 'solid')} {custom_theme.get('primary_color', '#B86B36')};
