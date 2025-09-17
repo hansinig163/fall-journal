@@ -83,6 +83,13 @@ if "user_email" not in st.session_state:
 
 # layout
 with st.sidebar:
+    # Move sidebar contents up
+    st.markdown(
+        """
+        <div style='margin-top:-32px;'>
+        """,
+        unsafe_allow_html=True
+    )
     # Centered, bigger "New Entry" header
     st.markdown(
         """
@@ -191,6 +198,12 @@ with st.sidebar:
         "accent_color": accent_val,
         "font_choice": font_val
     }
+    st.markdown(
+        """
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
 # prompts & quick actions
 st.markdown("## ✨ Quick Prompts 🍁")
