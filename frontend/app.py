@@ -143,6 +143,10 @@ with st.sidebar:
         """,
         unsafe_allow_html=True
     )
+    # Ensure user_key is set before button
+    user_key = f"entries_{st.session_state['user_email']}"
+    if user_key not in st.session_state:
+        st.session_state[user_key] = []
     save_clicked = st.button("🍯 Save Entry 💖", key="save_entry_btn", help="Save your cozy memory!", use_container_width=False)
     # Font and accent color selection at the end, before save button
     font_choice, accent_color = st.columns(2)
@@ -161,7 +165,6 @@ with st.sidebar:
 
     # Remove previous large Save Entry button markup
     # The actual Streamlit button (hidden visually, but functional)
-    user_key = f"entries_{st.session_state['user_email']}"
     if save_clicked:
         entry = {
             "date": date.isoformat(),
