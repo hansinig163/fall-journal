@@ -104,36 +104,14 @@ with st.sidebar:
         unsafe_allow_html=True
     )
 
-    # Cute calendar container, no pumpkin emoji, smaller label
+    # "Pick a Date for Your Memory" as small text, not in a box
     st.markdown(
-        """
-        <div style='
-            background: linear-gradient(120deg, #fffbe9 80%, #ffe7c2 100%);
-            border-radius: 16px;
-            box-shadow: 0 2px 12px rgba(186,107,54,0.08);
-            padding: 10px 10px 6px 10px;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            justify-content: center;
-        '>
-            <span style='font-size:1.6em;'>🍁</span>
-            <div>
-                <div style='font-size:0.95em; color:#E2B07A; font-family:Georgia,serif; margin-bottom:2px;'>
-                    📅 <b>Pick a Date for Your Memory</b>
-                </div>
-        """,
+        "<div style='font-size:0.95em; color:#E2B07A; font-family:Georgia,serif; margin-bottom:2px; margin-top:10px;'>"
+        "📅 <b>Pick a Date for Your Memory</b>"
+        "</div>",
         unsafe_allow_html=True
     )
     date = st.date_input("", value=datetime.date.today(), key="date_input")
-    st.markdown(
-        """
-            </div>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
 
     mood = st.selectbox("🌈 Mood", [
         "✨ Joyful 🧡", "😌 Calm 🍃", "😕 Meh 🍂", "😔 Sad 💧", "🔥 Energized 🎃"
