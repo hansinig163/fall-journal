@@ -370,29 +370,28 @@ st.markdown("## 📖 Your Entries 🍁✨")
 entries = st.session_state.get(user_key, [])
 if entries:
     order = reversed(entries) if custom_theme.get("entry_order", "Newest First") == "Newest First" else entries
+    font_css = font_map.get(custom_theme.get("font_choice"), "Georgia, serif")
+    accent = custom_theme.get('accent_color', '#E2B07A')
     for idx, row in enumerate(order):
         emoji = row.get("emoji", custom_theme.get("emoji", "🍂"))
         entry_label = []
-        accent = custom_theme.get('accent_color', '#E2B07A')
-        font_css = font_map.get(custom_theme.get("font_choice"), "Georgia, serif")
-        # Use font and accent color for entry label
+        # Only use plain text for tags, no HTML rendering
         if custom_theme.get("show_date", True):
             entry_label.append(f"<span style='color:{accent}; font-weight:bold; font-family:{font_css};'>📅 {row.get('date','')}</span>")
         if custom_theme.get("show_mood", True):
             entry_label.append(f"<span style='color:{accent}; font-family:{font_css};'>{row.get('mood','')}</span>")
         if custom_theme.get("show_tags", True) and isinstance(row.get('tags', None), list):
-            tags_line = " ".join([f"<span style='color:{accent}; font-family:{font_css};'>🏷️ {t}</span>" for t in row['tags']])
+            tags_line = " ".join([f"<span style='color:{accent}; font-family:{font_css};'>🏷️ {st.markdown(t, unsafe_allow_html=False) if '<' in t or '>' in t else t}</span>" for t in row['tags']])
             entry_label.append(tags_line)
         label = " · ".join(entry_label) if entry_label else f"Entry {idx+1}"
-        with st.expander(f"{emoji} 🍁🎃✨ {label} 💖", expanded=False):
+        with st.expander(f"{emoji} <span style='font-family:{font_css}; font-size:1.08em;'>{label}</span>", expanded=False):
             st.markdown(
-                f"<div style='font-size:1.1em; font-weight:bold; margin-bottom:6px; font-family:{font_css};'>"
-                f"{label} <span style='font-size:1.2em;'>🧡✨</span></div>",
+                f"<div style='font-size:1.1em; font-weight:bold; margin-bottom:6px; font-family:{font_css}; color:{accent};'>"
+                f"{label}</div>",
                 unsafe_allow_html=True
             )
-            # Entry text is now bold for visibility and uses font
             st.markdown(
-                f"<div style='margin-top:8px; font-size:1.08em; font-weight:bold; font-family:{font_css};'>💬 {row.get('text','')} <span style='font-size:1.2em;'>🎃🍁💖</span></div>",
+                f"<div style='margin-top:8px; font-size:1.08em; font-weight:bold; font-family:{font_css};'>💬 {row.get('text','')}</div>",
                 unsafe_allow_html=True
             )
 else:
