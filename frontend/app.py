@@ -221,10 +221,13 @@ if custom_theme:
             overflow: visible !important;
             display: flex;
             flex-direction: column;
+            height: 100vh !important;
         }}
         .stSidebarContent {{
-            height: 100vh !important;
-            overflow-y: scroll !important;
+            flex: 1 1 auto !important;
+            height: 100% !important;
+            max-height: 100vh !important;
+            overflow-y: auto !important;
             padding-bottom: 60px;
             scrollbar-width: auto;
             scrollbar-color: #E2B07A #F5E3D0;
@@ -246,8 +249,9 @@ if custom_theme:
         }}
         /* Fallback for older Streamlit: */
         section[data-testid="stSidebar"] .block-container {{
-            height: 100vh !important;
-            overflow-y: scroll !important;
+            height: 100% !important;
+            max-height: 100vh !important;
+            overflow-y: auto !important;
         }}
         section[data-testid="stSidebar"] .block-container::-webkit-scrollbar {{
             width: 12px;
