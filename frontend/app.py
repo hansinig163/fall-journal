@@ -54,7 +54,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-st.title("🍁 September Fall Journal  ✨🎃")
+st.title("🍁 September Fall Journal  ✨")
 st.markdown(
     "<div style='font-size:1.2em; color:#B86B36; font-family:Georgia,serif;'>"
     "A cozy place to jot your thoughts — mood tags, prompts, and soft aesthetics. "
@@ -220,14 +220,15 @@ if custom_theme:
             padding-top: 12px;
             padding-bottom: 12px;
             position: relative;
-            overflow: hidden !important; /* changed from visible to hidden */
-            min-height: 100vh;
-            height: 100%;
+            overflow: hidden !important;
+            /* Remove min-height and height to allow content to define height */
+            /* min-height: 100vh; */
+            /* height: 100%; */
             display: flex;
             flex-direction: column;
         }}
         /* Make sidebar content scrollable (fix for Streamlit 1.32+) */
-        section[data-testid="stSidebar"] .block-container {{
+        .stSidebarContent {{
             flex: 1 1 auto;
             max-height: 80vh;
             overflow-y: auto !important;
