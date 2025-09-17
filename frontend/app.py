@@ -200,6 +200,7 @@ if custom_theme:
         f"""
         <style>
         .stApp {{
+            /* ...existing plaid background... */
             background-color: #FFF8F1 !important;
             background-image:
                 repeating-linear-gradient(0deg, #fff 0, #fff 4px, transparent 4px, transparent 40px),
@@ -219,13 +220,17 @@ if custom_theme:
             padding-top: 12px;
             padding-bottom: 12px;
             position: relative;
-            overflow: visible !important;
+            overflow: hidden !important; /* changed from visible to hidden */
             min-height: 100vh;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
         }}
-        /* Make sidebar content scrollable */
+        /* Make sidebar content scrollable (fix for Streamlit 1.32+) */
         section[data-testid="stSidebar"] .block-container {{
-            max-height: 90vh;
-            overflow-y: auto;
+            flex: 1 1 auto;
+            max-height: 80vh;
+            overflow-y: auto !important;
             padding-bottom: 60px;
         }}
         /* Falling leaves animation */
