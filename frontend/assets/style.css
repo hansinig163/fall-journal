@@ -162,3 +162,31 @@ h1::before, h2::before, h3::before {
   opacity: 0.85;
 }
 /* end fall styles */
+/* Falling leaves animation */
+@keyframes fall-leaf {
+  0% { transform: translateY(-60px) rotate(-10deg); opacity: 0.8; }
+  70% { opacity: 1; }
+  100% { transform: translateY(420px) rotate(30deg); opacity: 0.2; }
+}
+.fall-leaf {
+  position: absolute;
+  z-index: 10;
+  pointer-events: none;
+  animation: fall-leaf 7s linear infinite;
+}
+.fall-leaf1 { left: 10%; font-size: 2em; animation-delay: 0s; }
+.fall-leaf2 { left: 60%; font-size: 1.7em; animation-delay: 1.5s; }
+.fall-leaf3 { left: 35%; font-size: 2.3em; animation-delay: 3s; }
+.fall-leaf4 { left: 80%; font-size: 1.5em; animation-delay: 2.2s; }
+/* Responsive adjustments */
+@media (max-width: 600px) {             
+  .journal-card {
+    padding: 16px;
+  }
+  .button {
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+  }
+}   
+/* End of style.css */
