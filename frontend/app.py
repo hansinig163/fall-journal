@@ -140,7 +140,32 @@ with st.sidebar:
     ])
     tags = st.text_input("🏷️ Tags (comma separated) 🎃", placeholder="autumn,coffee,walks,🍁,✨")
     entry_text = st.text_area("💬 Write your entry... 💖", height=160)
-
+    
+    # Small, cute Save Entry button inside the entry box area
+    st.markdown(
+        """
+        <div style='text-align:center; margin-top:-10px; margin-bottom:8px;'>
+            <style>
+            .cute-save-btn {
+                background: linear-gradient(90deg, #ffe7c2 60%, #fffbe9 100%);
+                border: 1.5px solid #E2B07A;
+                border-radius: 12px;
+                color: #B86B36;
+                font-size: 1em;
+                font-weight: bold;
+                padding: 0.3em 1em;
+                margin-top: 2px;
+                margin-bottom: 2px;
+                box-shadow: 0 1px 6px rgba(186,107,54,0.10);
+                cursor: pointer;
+                transition: 0.2s;
+            }
+            </style>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+    save_clicked = st.button("🍯 Save Entry 💖", key="save_entry_btn", help="Save your cozy memory!", use_container_width=False)
     # Font and accent color selection at the end, before save button
     font_choice, accent_color = st.columns(2)
     with font_choice:
@@ -156,32 +181,8 @@ with st.sidebar:
         accent_val = st.color_picker("Accent Color 🍯", value=st.session_state.get("custom_theme", {}).get("accent_color", "#E2B07A"), key="accent_color")
     st.markdown("---")
 
-    # Cute, prominent Save Entry button
-    st.markdown(
-        """
-        <div style='text-align:center; margin-bottom:6px;'>
-            <button style="
-                background: linear-gradient(90deg, #ffe7c2 60%, #fffbe9 100%);
-                border: 2px solid #E2B07A;
-                border-radius: 18px;
-                color: #B86B36;
-                font-size: 1.25em;
-                font-weight: bold;
-                padding: 0.6em 1.6em;
-                margin-top: 2px;
-                margin-bottom: 2px;
-                box-shadow: 0 2px 12px rgba(186,107,54,0.10);
-                cursor: pointer;
-                transition: 0.2s;
-            " disabled>
-                🍯✨ Save Entry 💖🍁🧡✨
-            </button>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+    # Remove previous large Save Entry button markup
     # The actual Streamlit button (hidden visually, but functional)
-    save_clicked = st.button("Save Entry", key="save_entry_btn")
     user_key = f"entries_{st.session_state['user_email']}"
     if save_clicked:
         entry = {
