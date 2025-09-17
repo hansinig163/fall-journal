@@ -226,6 +226,20 @@ if custom_theme:
             height: 90vh !important;
             overflow-y: auto !important;
             padding-bottom: 60px;
+            scrollbar-width: thin;
+            scrollbar-color: #E2B07A #F5E3D0;
+        }}
+        .stSidebarContent::-webkit-scrollbar {{
+            width: 10px;
+            background: #F5E3D0;
+            border-radius: 8px;
+        }}
+        .stSidebarContent::-webkit-scrollbar-thumb {{
+            background: #E2B07A;
+            border-radius: 8px;
+        }}
+        .stSidebarContent::-webkit-scrollbar-thumb:hover {{
+            background: #B86B36;
         }}
         /* Falling leaves animation */
         @keyframes fall-leaf {{
