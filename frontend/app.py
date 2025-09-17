@@ -83,26 +83,38 @@ if "user_email" not in st.session_state:
 
 # layout
 with st.sidebar:
-    st.header("📝 New Entry  🍂✨")
-    st.markdown(f"<div style='font-size:1em; color:#B86B36;'>Logged in as: <b>{st.session_state['user_email']}</b></div>", unsafe_allow_html=True)
-    
-    # Cute calendar container with emojis and soft background
+    # Centered, bigger "New Entry" header
+    st.markdown(
+        """
+        <div style='text-align:center; font-size:2em; font-weight:bold; color:#B86B36; margin-bottom:8px; margin-top:2px;'>
+            📝 New Entry  🍂✨
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+    st.markdown(
+        f"<div style='font-size:1em; color:#B86B36; text-align:center;'>Logged in as: <b>{st.session_state['user_email']}</b></div>",
+        unsafe_allow_html=True
+    )
+
+    # Cute calendar container, no pumpkin emoji, smaller label
     st.markdown(
         """
         <div style='
             background: linear-gradient(120deg, #fffbe9 80%, #ffe7c2 100%);
             border-radius: 16px;
             box-shadow: 0 2px 12px rgba(186,107,54,0.08);
-            padding: 12px 10px 8px 10px;
-            margin-bottom: 10px;
+            padding: 10px 10px 6px 10px;
+            margin-bottom: 8px;
             display: flex;
             align-items: center;
             gap: 10px;
+            justify-content: center;
         '>
-            <span style='font-size:2em;'>🍁</span>
+            <span style='font-size:1.6em;'>🍁</span>
             <div>
-                <div style='font-size:1.1em; color:#E2B07A; font-family:Georgia,serif; margin-bottom:2px;'>
-                    📅 <b>Pick a Date for Your Memory</b> <span style="font-size:1.3em;">✨🍂</span>
+                <div style='font-size:0.95em; color:#E2B07A; font-family:Georgia,serif; margin-bottom:2px;'>
+                    📅 <b>Pick a Date for Your Memory</b>
                 </div>
         """,
         unsafe_allow_html=True
@@ -111,11 +123,11 @@ with st.sidebar:
     st.markdown(
         """
             </div>
-            <span style='font-size:2em;'>🎃</span>
         </div>
         """,
         unsafe_allow_html=True
     )
+
     mood = st.selectbox("🌈 Mood", [
         "✨ Joyful 🧡", "😌 Calm 🍃", "😕 Meh 🍂", "😔 Sad 💧", "🔥 Energized 🎃"
     ])
@@ -136,22 +148,33 @@ with st.sidebar:
     with accent_color:
         accent_val = st.color_picker("Accent Color 🍯", value=st.session_state.get("custom_theme", {}).get("accent_color", "#E2B07A"), key="accent_color")
     st.markdown("---")
-    
-    # Cute Save Entry button with lots of emojis and playful text
+
+    # Cute, prominent Save Entry button
     st.markdown(
         """
-        <div style='text-align:center; margin-bottom:10px;'>
-            <span style='font-size:2em;'>🍯✨</span>
-            <span style='font-size:2.2em;'>🎃💖🍁</span>
-            <span style='font-size:1.5em;'>🧡🌟</span>
-            <div style='font-size:1.1em; margin-top:4px; color:#B86B36;'>
-                <b>Ready to save your cozy memory?</b> <span style='font-size:1.3em;'>🍂✨</span>
-            </div>
+        <div style='text-align:center; margin-bottom:6px;'>
+            <button style="
+                background: linear-gradient(90deg, #ffe7c2 60%, #fffbe9 100%);
+                border: 2px solid #E2B07A;
+                border-radius: 18px;
+                color: #B86B36;
+                font-size: 1.25em;
+                font-weight: bold;
+                padding: 0.6em 1.6em;
+                margin-top: 2px;
+                margin-bottom: 2px;
+                box-shadow: 0 2px 12px rgba(186,107,54,0.10);
+                cursor: pointer;
+                transition: 0.2s;
+            " disabled>
+                🍯✨ Save Entry 💖🍁🧡✨
+            </button>
         </div>
         """,
         unsafe_allow_html=True
     )
-    save_clicked = st.button("🍯✨ Save Entry 🎃💖🍁🧡🌟", key="save_entry_btn")
+    # The actual Streamlit button (hidden visually, but functional)
+    save_clicked = st.button("Save Entry", key="save_entry_btn")
     user_key = f"entries_{st.session_state['user_email']}"
     if save_clicked:
         entry = {
@@ -162,7 +185,7 @@ with st.sidebar:
             "emoji": st.session_state.get("custom_theme", {}).get("emoji", "🍂")
         }
         st.session_state[user_key].append(entry)
-        st.success(f"Saved to your cozy journal! 🍯✨🎃💖🧡🌟<br><br>📅 Saved entry for: {date.strftime('%B %d, %Y')} <span style='font-size:1.3em;'>💖🍁✨</span>", unsafe_allow_html=True)
+        st.success(f"Saved to your cozy journal! 🍯✨💖🧡<br><br>📅 Saved entry for: {date.strftime('%B %d, %Y')} <span style='font-size:1.3em;'>💖🍁✨</span>", unsafe_allow_html=True)
     st.session_state["custom_theme"] = {
         "emoji": st.session_state.get("custom_theme", {}).get("emoji", "🍂"),
         "accent_color": accent_val,
