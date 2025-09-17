@@ -111,7 +111,13 @@ with st.sidebar:
         "</div>",
         unsafe_allow_html=True
     )
-    date = st.date_input("", value=datetime.date.today(), key="date_input")
+    # Fix: Provide a non-empty label and hide it visually
+    date = st.date_input(
+        "Pick a Date",  # Non-empty label for accessibility
+        value=datetime.date.today(),
+        key="date_input",
+        label_visibility="collapsed"  # Hide label visually
+    )
 
     mood = st.selectbox("🌈 Mood", [
         "✨ Joyful 🧡", "😌 Calm 🍃", "😕 Meh 🍂", "😔 Sad 💧", "🔥 Energized 🎃"
@@ -369,19 +375,20 @@ if custom_theme:
 st.markdown("## 📖 Your Entries 🍁✨")
 entries = st.session_state.get(user_key, [])
 if entries:
-    order = reversed(entries) if custom_theme.get("entry_order", "Newest First") == "Newest First" else entries
+    order = list(reversed(entries)) if custom_theme.get("entry_order", "Newest First") == "Newest First" else list(entries)
     font_css = font_map.get(custom_theme.get("font_choice"), "Georgia, serif")
     accent = custom_theme.get('accent_color', '#E2B07A')
+    # Track if any entry was deleted
+    entry_deleted = False
     for idx, row in enumerate(order):
         emoji = row.get("emoji", custom_theme.get("emoji", "🍂"))
         entry_label = []
-        # Only use plain text for tags, no HTML rendering
         if custom_theme.get("show_date", True):
             entry_label.append(f"<span style='color:{accent}; font-weight:bold; font-family:{font_css};'>📅 {row.get('date','')}</span>")
         if custom_theme.get("show_mood", True):
             entry_label.append(f"<span style='color:{accent}; font-family:{font_css};'>{row.get('mood','')}</span>")
         if custom_theme.get("show_tags", True) and isinstance(row.get('tags', None), list):
-            tags_line = " ".join([f"<span style='color:{accent}; font-family:{font_css};'>🏷️ {st.markdown(t, unsafe_allow_html=False) if '<' in t or '>' in t else t}</span>" for t in row['tags']])
+            tags_line = " ".join([f"<span style='color:{accent}; font-family:{font_css};'>🏷️ {t}</span>" for t in row['tags']])
             entry_label.append(tags_line)
         label = " · ".join(entry_label) if entry_label else f"Entry {idx+1}"
         with st.expander(f"{emoji} <span style='font-family:{font_css}; font-size:1.08em;'>{label}</span>", expanded=False):
@@ -394,6 +401,16 @@ if entries:
                 f"<div style='margin-top:8px; font-size:1.08em; font-weight:bold; font-family:{font_css};'>💬 {row.get('text','')}</div>",
                 unsafe_allow_html=True
             )
+            # Add delete button for this entry
+            col_del = st.columns([0.7, 0.3])
+            with col_del[1]:
+                if st.button("🗑️ Delete", key=f"delete_entry_{idx}"):
+                    # Remove from the correct order in st.session_state
+                    real_idx = len(entries) - 1 - idx if custom_theme.get("entry_order", "Newest First") == "Newest First" else idx
+                    st.session_state[user_key].pop(real_idx)
+                    st.experimental_rerun()
+                    entry_deleted = True
+                    break
 else:
     st.info("No journal entries yet — make your first one from the sidebar 🌾✨🎃💖")
 
