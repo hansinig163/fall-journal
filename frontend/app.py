@@ -93,35 +93,6 @@ with st.sidebar:
     entry_text = st.text_area("💬 Write your entry... 💖", height=160)
 
     st.markdown("---")
-    st.subheader("🎨 Customize Journal Appearance 🍁")
-    st.caption("Personalize your cozy fall journal! <span style='font-size:1.2em;'>🍂🎃✨💖</span>", unsafe_allow_html=True)
-
-    st.markdown("**🍁 Colors & Style**")
-    primary_color = st.color_picker("Primary Color 🎨", value="#B86B36", key="primary_color")
-    accent_color = st.color_picker("Accent Color 🍯", value="#E2B07A", key="accent_color")
-    bg_color = st.color_picker("Background Color 🌻", value="#FFF8F1", key="bg_color")
-    font_choice = st.selectbox(
-        "Font Style 🖋️",
-        ["Serif (Georgia)", "Sans Serif", "Monospace", "Cursive", "Comic Sans"],
-        key="font_choice"
-    )
-    font_size = st.slider("Font Size 🔠", min_value=14, max_value=24, value=17, step=1, key="font_size")
-    # Replace shape selector with a border style selector
-    border_style = st.selectbox(
-        "Card Border Style 🖼️",
-        ["Solid", "Dashed", "Dotted", "Double", "None"],
-        key="border_style"
-    )
-    card_shadow = st.checkbox("Card Shadow 🌑", value=True, key="card_shadow")
-
-    st.markdown("**✨ Entry Display Options**")
-    emoji = st.text_input("Favorite Emoji for Entries 🥰", value="🍂", key="fav_emoji")
-    show_header_img = st.checkbox("Show Header Image 🖼️", value=True, key="show_header_img")
-    entry_order = st.radio("Entry Order ⏳", ["Newest First", "Oldest First"], key="entry_order")
-    show_tags = st.checkbox("Show Tags 🏷️", value=True, key="show_tags")
-    show_mood = st.checkbox("Show Mood 🌈", value=True, key="show_mood")
-    show_date = st.checkbox("Show Date 📅", value=True, key="show_date")
-
     save_clicked = st.button("🍯✨ Save Entry 🎃", key="save_entry_btn")
     user_key = f"entries_{st.session_state['user_email']}"
     if save_clicked:
@@ -130,24 +101,12 @@ with st.sidebar:
             "mood": mood,
             "tags": [t.strip() for t in tags.split(",") if t.strip()],
             "text": entry_text,
-            "emoji": emoji
+            "emoji": st.session_state.get("custom_theme", {}).get("emoji", "🍂")
         }
         st.session_state[user_key].append(entry)
         st.success(f"Saved to your cozy journal! 🍯✨🎃\n\n📅 Saved entry for: {date.strftime('%B %d, %Y')} <span style='font-size:1.3em;'>💖</span>", unsafe_allow_html=True)
     st.session_state["custom_theme"] = {
-        "primary_color": primary_color,
-        "bg_color": bg_color,
-        "accent_color": accent_color,
-        "font_choice": font_choice,
-        "font_size": font_size,
-        "emoji": emoji,
-        "show_header_img": show_header_img,
-        "border_style": border_style,
-        "card_shadow": card_shadow,
-        "entry_order": entry_order,
-        "show_tags": show_tags,
-        "show_mood": show_mood,
-        "show_date": show_date
+        "emoji": st.session_state.get("custom_theme", {}).get("emoji", "🍂")
     }
 
 # prompts & quick actions
