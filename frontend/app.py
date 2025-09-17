@@ -111,12 +111,11 @@ with st.sidebar:
         "</div>",
         unsafe_allow_html=True
     )
-    # Fix: Provide a non-empty label and hide it visually
     date = st.date_input(
-        "Pick a Date",  # Non-empty label for accessibility
+        "Pick a Date",
         value=datetime.date.today(),
         key="date_input",
-        label_visibility="collapsed"  # Hide label visually
+        label_visibility="collapsed"
     )
 
     mood = st.selectbox("🌈 Mood", [
@@ -149,49 +148,26 @@ with st.sidebar:
         """,
         unsafe_allow_html=True
     )
-    # Ensure user_key is set before button
     user_key = f"entries_{st.session_state['user_email']}"
     if user_key not in st.session_state:
         st.session_state[user_key] = []
     save_clicked = st.button("🍯 Save Entry 💖", key="save_entry_btn", help="Save your cozy memory!", use_container_width=False)
-    # Font and accent color selection at the end, before save button
-    font_choice, accent_color = st.columns(2)
-    with font_choice:
-        font_val = st.selectbox(
-            "Font Style 🖋️",
-            ["Serif (Georgia)", "Sans Serif", "Monospace", "Cursive", "Comic Sans"],
-            index=["Serif (Georgia)", "Sans Serif", "Monospace", "Cursive", "Comic Sans"].index(
-                st.session_state.get("custom_theme", {}).get("font_choice", "Serif (Georgia)")
-            ) if st.session_state.get("custom_theme", {}).get("font_choice") else 0,
-            key="font_choice"
-        )
-    with accent_color:
-        accent_val = st.color_picker("Accent Color 🍯", value=st.session_state.get("custom_theme", {}).get("accent_color", "#E2B07A"), key="accent_color")
-    st.markdown("---")
-
-    # Remove previous large Save Entry button markup
-    # The actual Streamlit button (hidden visually, but functional)
     if save_clicked:
         entry = {
-            "date": date.isoformat(),
+            "date": date.strftime("%Y-%m-%d"),
             "mood": mood,
             "tags": [t.strip() for t in tags.split(",") if t.strip()],
             "text": entry_text,
             "emoji": st.session_state.get("custom_theme", {}).get("emoji", "🍂")
         }
         st.session_state[user_key].append(entry)
-        st.success(f"Saved to your cozy journal! 🍯✨💖🧡<br><br>📅 Saved entry for: {date.strftime('%B %d, %Y')} <span style='font-size:1.3em;'>💖🍁✨</span>", unsafe_allow_html=True)
+        st.success(f"Saved to your cozy journal! 🍯✨💖🧡\n\n📅 Saved entry for: {date.strftime('%B %d, %Y')} 💖🍁✨")
     st.session_state["custom_theme"] = {
         "emoji": st.session_state.get("custom_theme", {}).get("emoji", "🍂"),
         "accent_color": accent_val,
         "font_choice": font_val
     }
-    st.markdown(
-        """
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+    st.markdown("</div>", unsafe_allow_html=True)
 
 # prompts & quick actions
 st.markdown("## ✨ Quick Prompts 🍁")
@@ -380,13 +356,12 @@ if entries:
     accent = custom_theme.get('accent_color', '#E2B07A')
     for idx, row in enumerate(order):
         emoji = row.get("emoji", custom_theme.get("emoji", "🍂"))
-        # Only show the date (no mood, no tags) in the entry label
+        # Only show the date in the entry label
         date_str = row.get('date', '')
         label = f"<span style='color:{accent}; font-weight:bold; font-family:{font_css};'>📅 {date_str}</span>"
         with st.expander(f"{emoji} <span style='font-family:{font_css}; font-size:1.08em;'>{label}</span>", expanded=False):
             st.markdown(
-                f"<div style='font-size:1.1em; font-weight:bold; margin-bottom:6px; font-family:{font_css}; color:{accent};'>"
-                f"{label}</div>",
+                f"<div style='font-size:1.1em; font-weight:bold; margin-bottom:6px; font-family:{font_css}; color:{accent};'>{label}</div>",
                 unsafe_allow_html=True
             )
             st.markdown(
