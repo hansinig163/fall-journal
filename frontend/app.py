@@ -378,19 +378,11 @@ if entries:
     order = list(reversed(entries)) if custom_theme.get("entry_order", "Newest First") == "Newest First" else list(entries)
     font_css = font_map.get(custom_theme.get("font_choice"), "Georgia, serif")
     accent = custom_theme.get('accent_color', '#E2B07A')
-    # Track if any entry was deleted
-    entry_deleted = False
     for idx, row in enumerate(order):
         emoji = row.get("emoji", custom_theme.get("emoji", "🍂"))
-        entry_label = []
-        if custom_theme.get("show_date", True):
-            entry_label.append(f"<span style='color:{accent}; font-weight:bold; font-family:{font_css};'>📅 {row.get('date','')}</span>")
-        if custom_theme.get("show_mood", True):
-            entry_label.append(f"<span style='color:{accent}; font-family:{font_css};'>{row.get('mood','')}</span>")
-        if custom_theme.get("show_tags", True) and isinstance(row.get('tags', None), list):
-            tags_line = " ".join([f"<span style='color:{accent}; font-family:{font_css};'>🏷️ {t}</span>" for t in row['tags']])
-            entry_label.append(tags_line)
-        label = " · ".join(entry_label) if entry_label else f"Entry {idx+1}"
+        # Only show the date (no mood, no tags) in the entry label
+        date_str = row.get('date', '')
+        label = f"<span style='color:{accent}; font-weight:bold; font-family:{font_css};'>📅 {date_str}</span>"
         with st.expander(f"{emoji} <span style='font-family:{font_css}; font-size:1.08em;'>{label}</span>", expanded=False):
             st.markdown(
                 f"<div style='font-size:1.1em; font-weight:bold; margin-bottom:6px; font-family:{font_css}; color:{accent};'>"
@@ -401,15 +393,13 @@ if entries:
                 f"<div style='margin-top:8px; font-size:1.08em; font-weight:bold; font-family:{font_css};'>💬 {row.get('text','')}</div>",
                 unsafe_allow_html=True
             )
-            # Add delete button for this entry
+            # Delete button
             col_del = st.columns([0.7, 0.3])
             with col_del[1]:
                 if st.button("🗑️ Delete", key=f"delete_entry_{idx}"):
-                    # Remove from the correct order in st.session_state
                     real_idx = len(entries) - 1 - idx if custom_theme.get("entry_order", "Newest First") == "Newest First" else idx
                     st.session_state[user_key].pop(real_idx)
-                    st.experimental_rerun()
-                    entry_deleted = True
+                    st.rerun()
                     break
 else:
     st.info("No journal entries yet — make your first one from the sidebar 🌾✨🎃💖")
