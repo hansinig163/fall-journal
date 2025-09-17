@@ -148,6 +148,24 @@ with st.sidebar:
         """,
         unsafe_allow_html=True
     )
+    font_choice, accent_color = st.columns(2)
+    with font_choice:
+        font_val = st.selectbox(
+            "Font Style 🖋️",
+            ["Serif (Georgia)", "Sans Serif", "Monospace", "Cursive", "Comic Sans"],
+            index=["Serif (Georgia)", "Sans Serif", "Monospace", "Cursive", "Comic Sans"].index(
+                st.session_state.get("custom_theme", {}).get("font_choice", "Serif (Georgia)")
+            ) if st.session_state.get("custom_theme", {}).get("font_choice") else 0,
+            key="font_choice"
+        )
+    with accent_color:
+        accent_val = st.color_picker(
+            "Accent Color 🍯",
+            value=st.session_state.get("custom_theme", {}).get("accent_color", "#E2B07A"),
+            key="accent_color"
+        )
+    st.markdown("---")
+
     user_key = f"entries_{st.session_state['user_email']}"
     if user_key not in st.session_state:
         st.session_state[user_key] = []
@@ -162,6 +180,7 @@ with st.sidebar:
         }
         st.session_state[user_key].append(entry)
         st.success(f"Saved to your cozy journal! 🍯✨💖🧡\n\n📅 Saved entry for: {date.strftime('%B %d, %Y')} 💖🍁✨")
+    # Fix: set accent_val and font_val before using them in custom_theme
     st.session_state["custom_theme"] = {
         "emoji": st.session_state.get("custom_theme", {}).get("emoji", "🍂"),
         "accent_color": accent_val,
