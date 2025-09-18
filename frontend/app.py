@@ -104,11 +104,29 @@ with st.sidebar:
         unsafe_allow_html=True
     )
 
-    # "Pick a Date for Your Memory" as small text, not in a box
+    # "Pick a Date for Your Memory" as small text, not in a box, with pixel art/gif and leaf emojis
     st.markdown(
-        "<div style='font-size:0.95em; color:#E2B07A; font-family:Georgia,serif; margin-bottom:2px; margin-top:10px;'>"
-        "📅 <b>Pick a Date for Your Memory</b>"
-        "</div>",
+        """
+        <div style='
+            font-size:0.95em;
+            color:#E2B07A;
+            font-family:Georgia,serif;
+            margin-bottom:2px;
+            margin-top:10px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            gap:8px;
+        '>
+            🍁 <img src="https://em-content.zobj.net/thumbs/120/twitter/351/maple-leaf_1f341.png" width="28" style="vertical-align:middle; margin-bottom:2px;" />
+            <b>Pick a Date for Your Memory</b>
+            <img src="https://media.giphy.com/media/3o7TKtnuHOHHUjR38Y/giphy.gif" width="32" style="vertical-align:middle; margin-bottom:2px; border-radius:6px;" />
+            🍂
+        </div>
+        <div style='text-align:center; margin-bottom:2px;'>
+            <img src="https://www.pixelartcss.com/images/leaf-pixel-art.gif" width="60" style="margin:2px 0 4px 0; border-radius:8px;" />
+        </div>
+        """,
         unsafe_allow_html=True
     )
     date = st.date_input(
@@ -169,7 +187,32 @@ with st.sidebar:
     user_key = f"entries_{st.session_state['user_email']}"
     if user_key not in st.session_state:
         st.session_state[user_key] = []
-    save_clicked = st.button("🍯 Save Entry 💖", key="save_entry_btn", help="Save your cozy memory!", use_container_width=False)
+    save_clicked = st.button(
+        label="🍯 Save Entry 💖",
+        key="save_entry_btn",
+        help="Save your cozy memory!",
+        use_container_width=False,
+        type="secondary",
+        # Add custom class for pixel style
+        args=(),
+        kwargs={},
+        on_click=None,
+        disabled=False
+    )
+    # Patch the button to have the pixel-art class (Streamlit workaround)
+    st.markdown(
+        """
+        <script>
+        const btns = window.parent.document.querySelectorAll('button[kind="secondary"]');
+        btns.forEach(btn => {
+            if (!btn.classList.contains('cute-save-btn')) {
+                btn.classList.add('cute-save-btn');
+            }
+        });
+        </script>
+        """,
+        unsafe_allow_html=True
+    )
     if save_clicked:
         entry = {
             "date": date.strftime("%Y-%m-%d"),
@@ -283,6 +326,12 @@ if custom_theme:
         }}
         .stSidebarContent::-webkit-scrollbar-thumb:hover {{
             background: #B86B36;
+        }}
+        /* Ensure sidebar is always scrollable */
+        section[data-testid="stSidebar"] > div:first-child,
+        section[data-testid="stSidebar"] .block-container {{
+            overflow-y: auto !important;
+            max-height: 100vh !important;
         }}
         /* Fallback for older Streamlit: */
         section[data-testid="stSidebar"] .block-container {{
@@ -411,3 +460,37 @@ if entries:
                     break
 else:
     st.info("No journal entries yet — make your first one from the sidebar 🌾✨🎃💖")
+
+# For pixel-art style delete button inside entry expander
+# (This will style all Streamlit buttons with the 🗑️ label in the expander)
+st.markdown(
+    """
+    <style>
+    .stButton>button:has(span:contains('🗑️')) {
+        background: url('https://www.pixelartcss.com/images/pixel-button-bg.png'), linear-gradient(90deg, #ffe7c2 60%, #fffbe9 100%);
+        background-size: cover, 100% 100%;
+        border: 2.5px solid #B86B36;
+        border-radius: 8px;
+        color: #B86B36;
+        font-size: 1.08em;
+        font-family: 'Press Start 2P', 'Comic Sans MS', cursive, sans-serif;
+        font-weight: bold;
+        padding: 0.4em 1.1em;
+        margin-top: 2px;
+        margin-bottom: 2px;
+        box-shadow: 0 2px 8px rgba(186,107,54,0.18), 0 0 0 4px #ffe7c2 inset;
+        cursor: pointer;
+        transition: 0.2s;
+        outline: none !important;
+        text-shadow: 1px 1px #fffbe9, 2px 2px #E2B07A;
+        letter-spacing: 1px;
+    }
+    .stButton>button:has(span:contains('🗑️')):hover {
+        background: url('https://www.pixelartcss.com/images/pixel-button-bg.png'), linear-gradient(90deg, #ffe7c2 60%, #ffe7c2 100%);
+        filter: brightness(1.08);
+        border-color: #ffb347;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
