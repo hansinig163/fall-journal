@@ -104,11 +104,21 @@ with st.sidebar:
         unsafe_allow_html=True
     )
 
-    # "Pick a Date for Your Memory" as small text, not in a box, with pixel art/gif and leaf emojis
+    # Add pixel art, coffee gif, and cozy pumpkin latte pixel art above the calendar
     st.markdown(
         """
         <div style='
-            font-size:0.95em;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 6px;
+        '>
+            <img src="https://www.pixelartcss.com/images/leaf-pixel-art.gif" width="60" style="margin:2px 0 4px 0; border-radius:8px;" />
+            <img src="https://media.giphy.com/media/3o6Zt6ML6BklcajjsA/giphy.gif" width="60" style="margin:2px 0 4px 0; border-radius:8px;" />
+            <img src="https://i.imgur.com/7yT7vQy.png" width="60" style="margin:2px 0 4px 0; border-radius:8px;" title="Cozy Pumpkin Latte Pixel Art" />
+        </div>
+        <div style='
+            font-size:1.1em;
             color:#E2B07A;
             font-family:Georgia,serif;
             margin-bottom:2px;
@@ -123,8 +133,15 @@ with st.sidebar:
             <img src="https://media.giphy.com/media/3o7TKtnuHOHHUjR38Y/giphy.gif" width="32" style="vertical-align:middle; margin-bottom:2px; border-radius:6px;" />
             🍂
         </div>
-        <div style='text-align:center; margin-bottom:2px;'>
-            <img src="https://www.pixelartcss.com/images/leaf-pixel-art.gif" width="60" style="margin:2px 0 4px 0; border-radius:8px;" />
+        """,
+        unsafe_allow_html=True
+    )
+
+    # Cute calendar with emoji hints (Streamlit doesn't support custom calendar widgets, so add emoji hints above)
+    st.markdown(
+        """
+        <div style='text-align:center; font-size:1.2em; margin-bottom:2px;'>
+            <span>🌞🌻🌾🍁🍂🍃🍄☕🎃🧣🧋🍪🍫🍵</span>
         </div>
         """,
         unsafe_allow_html=True
@@ -188,6 +205,20 @@ with st.sidebar:
     if user_key not in st.session_state:
         st.session_state[user_key] = []
     save_clicked = st.button("🍯 Save Entry 💖", key="save_entry_btn", help="Save your cozy memory!", use_container_width=False)
+    # Patch the button to have the pixel-art class (Streamlit workaround)
+    st.markdown(
+        """
+        <script>
+        const btns = window.parent.document.querySelectorAll('button[kind="secondary"], button[kind="primary"], button');
+        btns.forEach(btn => {
+            if (btn.innerText.includes("Save Entry") && !btn.classList.contains('cute-save-btn')) {
+                btn.classList.add('cute-save-btn');
+            }
+        });
+        </script>
+        """,
+        unsafe_allow_html=True
+    )
     if save_clicked:
         entry = {
             "date": date.strftime("%Y-%m-%d"),
