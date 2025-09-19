@@ -185,7 +185,7 @@ def login_ui():
                 st.session_state["user"] = username
                 calming_transition()
                 st.success("Login successful! 🍁")
-                st.experimental_rerun()
+                st.rerun()
             else:
                 st.error("Invalid username or password.")
     with tab_register:
@@ -207,7 +207,7 @@ def login_ui():
                 st.success(msg)
                 st.session_state["user"] = new_username
                 calming_transition()
-                st.experimental_rerun()
+                st.rerun()
             else:
                 st.error(msg)
 
@@ -255,7 +255,7 @@ def show_logout():
     if "user" in st.session_state:
         if st.button("🚪 Logout", key="logout_btn"):
             logout_user()
-            st.experimental_rerun()
+            st.rerun()
 
 # --- Require Login ---
 require_login()
@@ -287,50 +287,4 @@ def load_journal_entries(username):
                 content = ""
                 if lines and lines[0].startswith("Title:"):
                     title = lines[0].replace("Title:", "").strip()
-                    content = "".join(lines[2:]).strip() if len(lines) > 2 else ""
-                else:
-                    title = file.stem
-                    content = "".join(lines).strip()
-                date_part = file.name.split("-entry.txt")[0]
-                entries.append({
-                    "filename": str(file),
-                    "date": date_part,
-                    "title": title,
-                    "content": content
-                })
-        except Exception:
-            continue
-    return entries
-
-st.session_state[user_key] = load_journal_entries(st.session_state["user"])
-
-# --- Pixel Art UI Theme ---
-st.markdown(
-    """
-    <style>
-    /* Pixel-art wooden shelf sidebar */
-    section[data-testid="stSidebar"] > div:first-child {
-        background: url('https://i.imgur.com/6Q8QvQj.png') repeat, linear-gradient(135deg, #e7c49a 0%, #b97a56 100%);
-        background-size: 80px 80px, 100% 100%;
-        border: 4px solid #a05a2c;
-        border-radius: 18px;
-        box-shadow: 0 4px 24px rgba(186,107,54,0.18), 0 0 0 8px #e7c49a inset;
-        padding-top: 12px;
-        padding-bottom: 12px;
-        position: relative;
-        overflow: visible !important;
-        display: flex;
-        flex-direction: column;
-        height: 100vh !important;
-    }
-    .stSidebarContent {
-        flex: 1 1 auto !important;
-        height: 100% !important;
-        max-height: 100vh !important;
-        overflow-y: auto !important;
-            padding-bottom: 60px;
-                scrollbar-width: auto;
-                scrollbar-color: #B86C4C;
-        }
-        </style>
-        """)
+                    content = "".join(lines[2:]).strip() if len(lines) > 2
