@@ -287,4 +287,92 @@ def load_journal_entries(username):
                 content = ""
                 if lines and lines[0].startswith("Title:"):
                     title = lines[0].replace("Title:", "").strip()
-                    content = "".join(lines[2:]).strip() if len(lines) > 2
+                    if len(lines) > 2:
+                        content = "".join(lines[2:]).strip()
+                    else:
+                        content = ""
+                else:
+                    title = file.stem
+                    content = "".join(lines).strip()
+                date_part = file.name.split("-entry.txt")[0]
+                entries.append({
+                    "filename": str(file),
+                    "date": date_part,
+                    "title": title,
+                    "content": content
+                })
+        except Exception as e:
+            st.warning(f"Could not read entry file {file.name}: {e}")
+    return entries
+
+# --- Streamlit App ---
+st.title("Cozy Fall Journal 🍂")
+st.write("Reflect, Relax, and Rejuvenate in your personal online journal.")
+
+# --- Journal Entry Form ---
+with st.form("journal_entry_form", clear_on_submit=True):
+    st.subheader("New Journal Entry")
+    entry_title = st.text_input("Entry Title", placeholder="What’s on your mind?", max_chars=100)
+    entry_content = st.text_area("Entry Content", placeholder="Dear Journal...", height=150)
+    submit_entry = st.form_submit_button("📖  Save Entry", use_container_width=True)
+
+if submit_entry and entry_title and entry_content:
+    # Save entry to file
+    date_now = datetime.datetime.now()
+    save_entry_to_file(st.session_state["user"], entry_title, entry_content, date_now)
+    st.success("Entry saved!")
+    # Update session state
+    st.session_state[user_key].append({
+        "title": entry_title,
+        "content": entry_content,
+        "date": date_now.strftime("%Y-%m-%d %H:%M:%S")
+    })
+    st.experimental_rerun()
+
+# --- Journal Entries ---
+st.subheader("Your Journal Entries")
+entries = load_journal_entries(st.session_state["user"])
+if not entries:
+    st.write("No entries found. Start by writing your first entry!")
+else:
+    for entry in entries:
+        entry_date = datetime.datetime.strptime(entry["date"], "%Y-%m-%d %H%M%S")
+        st.write(f"### {entry['title']}")
+        st.write(f"*{entry_date.strftime('%Y-%m-%d %H:%M')}*")
+        st.write(entry["content"])
+        st.write("")
+        # Download link
+        file_path = entry["filename"]
+        file_name = Path(file_path).name
+        with open(file_path, "rb") as f:
+            st.download_button(
+                label="📥 Download Entry",
+                data=f,
+                file_name=file_name,
+                mime="text/plain",
+                key=f"download_{file_name}"
+            )
+        st.markdown("---")
+
+# --- Footer ---
+st.markdown(
+    """
+    <style>
+    .footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        background-color: rgba(255, 250, 235, 0.9);
+        color: #b97a56;
+        text-align: center;
+        padding: 0.5em 0;
+        border-top: 2px solid #f7e3c2;
+    }
+    </style>
+    <div class="footer">
+        <p>🍂 Cozy Fall Journal - Your personal space to reflect and relax.</p>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
