@@ -126,6 +126,23 @@ def login_ui():
             text-align: center;
             margin-bottom: 0.2em;
         }
+        .cozy-title {
+            font-family: 'Comic Sans MS', 'Georgia', cursive, sans-serif;
+            color: #b97a56;
+            font-size: 2em;
+            text-align: center;
+            margin-bottom: 0.5em;
+            margin-top: 0.2em;
+            letter-spacing: 1px;
+        }
+        .cozy-phrase {
+            font-family: 'Comic Sans MS', 'Georgia', cursive, sans-serif;
+            color: #b97a56;
+            font-size: 1.1em;
+            text-align: center;
+            margin-bottom: 1.2em;
+            margin-top: -0.5em;
+        }
         .fall-leaf-pastel {
             position: fixed;
             z-index: 1;
@@ -143,6 +160,14 @@ def login_ui():
         .fall-leaf-pastel3 { left: 35%; font-size: 2.5em; animation-delay: 3.5s; }
         .fall-leaf-pastel4 { left: 80%; font-size: 1.5em; animation-delay: 1.2s; }
         .fall-leaf-pastel5 { left: 25%; font-size: 1.8em; animation-delay: 4.2s; }
+        .pop-anim {
+            animation: pop-anim 0.25s cubic-bezier(.68,-0.55,.27,1.55);
+        }
+        @keyframes pop-anim {
+            0% { transform: scale(1);}
+            50% { transform: scale(1.13);}
+            100% { transform: scale(1);}
+        }
         </style>
         <div class="pastel-login-bg"></div>
         <div class="fall-leaf-pastel fall-leaf-pastel1">🍂</div>
@@ -150,6 +175,18 @@ def login_ui():
         <div class="fall-leaf-pastel fall-leaf-pastel3">🌰</div>
         <div class="fall-leaf-pastel fall-leaf-pastel4">🍃</div>
         <div class="fall-leaf-pastel fall-leaf-pastel5">🍂</div>
+        <script>
+        // Add pop animation to all buttons on click
+        window.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('button').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    btn.classList.remove('pop-anim');
+                    void btn.offsetWidth; // trigger reflow
+                    btn.classList.add('pop-anim');
+                });
+            });
+        });
+        </script>
         """,
         unsafe_allow_html=True
     )
@@ -166,6 +203,8 @@ def login_ui():
         """,
         unsafe_allow_html=True
     )
+    st.markdown('<div class="cozy-title">Cozy Fall Journal 🍂</div>', unsafe_allow_html=True)
+    st.markdown('<div class="cozy-phrase">Reflect, Relax, and Rejuvenate in your personal online journal.</div>', unsafe_allow_html=True)
     tab_login, tab_register = st.tabs(["☕ Login", "🍁 Register"])
     with tab_login:
         st.markdown(
@@ -309,70 +348,55 @@ def load_journal_entries(username):
 st.title("Cozy Fall Journal 🍂")
 st.write("Reflect, Relax, and Rejuvenate in your personal online journal.")
 
-# --- Journal Entry Form ---
-with st.form("journal_entry_form", clear_on_submit=True):
-    st.subheader("New Journal Entry")
-    entry_title = st.text_input("Entry Title", placeholder="What’s on your mind?", max_chars=100)
-    entry_content = st.text_area("Entry Content", placeholder="Dear Journal...", height=150)
-    submit_entry = st.form_submit_button("📖  Save Entry", use_container_width=True)
-
-if submit_entry and entry_title and entry_content:
-    # Save entry to file
-    date_now = datetime.datetime.now()
-    save_entry_to_file(st.session_state["user"], entry_title, entry_content, date_now)
-    st.success("Entry saved!")
-    # Update session state
-    st.session_state[user_key].append({
-        "title": entry_title,
-        "content": entry_content,
-        "date": date_now.strftime("%Y-%m-%d %H:%M:%S")
-    })
-    st.experimental_rerun()
-
-# --- Journal Entries ---
-st.subheader("Your Journal Entries")
-entries = load_journal_entries(st.session_state["user"])
-if not entries:
-    st.write("No entries found. Start by writing your first entry!")
-else:
-    for entry in entries:
-        entry_date = datetime.datetime.strptime(entry["date"], "%Y-%m-%d %H%M%S")
-        st.write(f"### {entry['title']}")
-        st.write(f"*{entry_date.strftime('%Y-%m-%d %H:%M')}*")
-        st.write(entry["content"])
-        st.write("")
-        # Download link
-        file_path = entry["filename"]
-        file_name = Path(file_path).name
-        with open(file_path, "rb") as f:
-            st.download_button(
-                label="📥 Download Entry",
-                data=f,
-                file_name=file_name,
-                mime="text/plain",
-                key=f"download_{file_name}"
-            )
-        st.markdown("---")
-
-# --- Footer ---
+# --- Pixel Art UI Theme ---
 st.markdown(
     """
     <style>
-    .footer {
-        position: fixed;
-        left: 0;
-        bottom: 0;
-        width: 100%;
-        background-color: rgba(255, 250, 235, 0.9);
-        color: #b97a56;
-        text-align: center;
-        padding: 0.5em 0;
-        border-top: 2px solid #f7e3c2;
+    /* Pixel-art wooden shelf sidebar */
+    section[data-testid="stSidebar"] > div:first-child {
+        background: url('https://i.imgur.com/6Q8QvQj.png') repeat, linear-gradient(135deg, #e7c49a 0%, #b97a56 100%);
+        background-size: 80px 80px, 100% 100%;
+        border: 4px solid #a05a2c;
+        border-radius: 18px;
+        box-shadow: 0 4px 24px rgba(186,107,54,0.18), 0 0 0 8px #e7c49a inset;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        position: relative;
+        overflow: visible !important;
+        display: flex;
+        flex-direction: column;
+        height: 100vh !important;
+    }
+    .stSidebarContent {
+        flex: 1 1 auto !important;
+        height: 100% !important;
+        max-height: 100vh !important;
+        overflow-y: auto !important;
+        padding-bottom: 60px;
+        scrollbar-width: auto;
+        scrollbar-color: #B86K4B #e7c49a;
+    }
+    .pop-anim {
+        animation: pop-anim 0.25s cubic-bezier(.68,-0.55,.27,1.55);
+    }
+    @keyframes pop-anim {
+        0% { transform: scale(1);}
+        50% { transform: scale(1.13);}
+        100% { transform: scale(1);}
     }
     </style>
-    <div class="footer">
-        <p>🍂 Cozy Fall Journal - Your personal space to reflect and relax.</p>
-    </div>
+    <script>
+    // Add pop animation to all buttons on click (main app)
+    window.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                btn.classList.remove('pop-anim');
+                void btn.offsetWidth;
+                btn.classList.add('pop-anim');
+            });
+        });
+    });
+    </script>
     """,
     unsafe_allow_html=True
 )
