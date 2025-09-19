@@ -1,16 +1,13 @@
 # app.py — Streamlit Fall Journal
 import streamlit as st
-import pandas as pd
 import datetime
-import requests
 import json
 from pathlib import Path
-import os
 import hashlib
 
 st.set_page_config(page_title="September Fall Journal", page_icon="🍂", layout="centered")
 
-# load css
+# --- CSS Loader ---
 def local_css(file_name):
     with open(file_name) as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
@@ -20,7 +17,7 @@ css_file = assets_dir / "style.css"
 if css_file.exists():
     local_css(css_file)
 
-# header
+# --- Header Image ---
 if st.session_state.get("custom_theme", {}).get("show_header_img", True):
     header_img_path = assets_dir / "fall.jpg"
     if header_img_path.exists():
@@ -56,6 +53,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+# --- User Auth ---
 USERS_FILE = Path(__file__).parent / "users.json"
 
 def load_users():
@@ -198,13 +196,11 @@ def login_ui():
         """,
         unsafe_allow_html=True
     )
-    # Lo-fi/fall music (autoplay, loop, hidden controls)
     st.markdown(
         """
         <audio id="lofi-music" src="https://cdn.pixabay.com/audio/2022/10/16/audio_12b6b6e2e6.mp3" autoplay loop>
         </audio>
         <script>
-        // Ensure music continues after login (if possible)
         window.addEventListener('DOMContentLoaded', function() {
             var audio = document.getElementById('lofi-music');
             if (audio) { audio.volume = 0.25; }
@@ -258,7 +254,6 @@ def require_login():
     if "user" not in st.session_state:
         login_ui()
         st.stop()
-    # Create user folder if not exists
     user_folder = Path(__file__).parent.parent / "journal_entries" / st.session_state["user"]
     user_folder.mkdir(parents=True, exist_ok=True)
 
@@ -268,13 +263,13 @@ def show_logout():
             logout_user()
             st.experimental_rerun()
 
-# --- Replace old login logic ---
+# --- Require Login ---
 require_login()
 user_key = f"entries_{st.session_state['user']}"
 if user_key not in st.session_state:
     st.session_state[user_key] = []
 
-# Load user's journal entries from their folder
+# --- Load User's Journal Entries ---
 def load_journal_entries(username):
     entries_dir = Path(__file__).parent.parent / "journal_entries" / username
     if not entries_dir.exists():
