@@ -5,6 +5,45 @@ from pathlib import Path
 import hashlib
 import os
 
+def calming_transition():
+    st.markdown(
+        """
+        <style>
+        .fade-bg {
+            position: fixed;
+            top:0; left:0; width:100vw; height:100vh;
+            background: linear-gradient(120deg, #fffbe9 0%, #ffe7c2 100%);
+            z-index: 9999;
+            animation: fadeout-bg 1.2s ease-in forwards;
+        }
+        @keyframes fadeout-bg {
+            0% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { opacity: 0; pointer-events: none; }
+        }
+        .fade-leaf {
+            position: fixed;
+            left: 50%; top: 50%;
+            transform: translate(-50%,-50%);
+            font-size: 3.5em;
+            opacity: 0.8;
+            animation: fade-leaf 1.2s ease-in forwards;
+            z-index: 10000;
+        }
+        @keyframes fade-leaf {
+            0% { opacity: 0.8; transform: translate(-50%,-50%) scale(1);}
+            80% { opacity: 1; transform: translate(-50%,-50%) scale(1.2);}
+            100% { opacity: 0; transform: translate(-50%,-50%) scale(2);}
+        }
+        </style>
+        <div class="fade-bg"></div>
+        <div class="fade-leaf">🍂☕🍁</div>
+        """,
+        unsafe_allow_html=True
+    )
+    import time
+    time.sleep(1.2)
+
 # --- Pastel Fall-Themed Login UI with Lo-fi Music ---
 def login_ui():
     st.markdown(
@@ -144,6 +183,7 @@ def login_ui():
         if login_btn:
             if login_user(username, password):
                 st.session_state["user"] = username
+                calming_transition()
                 st.success("Login successful! 🍁")
                 st.experimental_rerun()
             else:
@@ -165,6 +205,9 @@ def login_ui():
             ok, msg = register_user(new_username, new_password)
             if ok:
                 st.success(msg)
+                st.session_state["user"] = new_username
+                calming_transition()
+                st.experimental_rerun()
             else:
                 st.error(msg)
 
@@ -262,39 +305,32 @@ def load_journal_entries(username):
 st.session_state[user_key] = load_journal_entries(st.session_state["user"])
 
 # --- Pixel Art UI Theme ---
-# ...existing code for pixel-art CSS, sidebar, calendar, prompts, and theme...
-
-# --- Sidebar: List Entries ---
-with st.sidebar:
-    # ...existing code for sidebar header, logout, etc...
-    st.markdown("### 📚 Your Entries")
-    entries = st.session_state[user_key]
-    for entry in entries:
-        if st.button(f"{entry['date']} - {entry['title']}", key=f"entry_{entry['filename']}"):
-            st.session_state["loaded_entry"] = entry
-
-    if st.button("🆕 New Entry", key="new_entry_btn"):
-        st.session_state["loaded_entry"] = None
-        st.session_state["entry_title_loaded"] = ""
-        st.session_state["entry_text_loaded"] = ""
-        st.experimental_rerun()
-
-# --- Main Editor ---
-loaded_entry = st.session_state.get("loaded_entry")
-if loaded_entry:
-    entry_title = st.text_input("📝 Entry Title", value=loaded_entry["title"], key="entry_title_loaded")
-    entry_text = st.text_area("💬 Write your entry... 💖", value=loaded_entry["content"], height=160, key="entry_text_loaded")
-else:
-    entry_title = st.text_input("📝 Entry Title", value="", key="entry_title_loaded")
-    entry_text = st.text_area("💬 Write your entry... 💖", value="", height=160, key="entry_text_loaded")
-
-if st.button("💾 Save Entry", key="save_entry_btn"):
-    now = datetime.datetime.now()
-    save_entry_to_file(st.session_state["user"], entry_title, entry_text, now)
-    st.session_state["loaded_entry"] = None
-    st.session_state["entry_title_loaded"] = ""
-    st.session_state["entry_text_loaded"] = ""
-    st.success("Saved to your cozy journal! 🍯✨💖🧡")
-    st.experimental_rerun()
-
-# ...existing code for calendar events, prompts, and theme...
+st.markdown(
+    """
+    <style>
+    /* Pixel-art wooden shelf sidebar */
+    section[data-testid="stSidebar"] > div:first-child {
+        background: url('https://i.imgur.com/6Q8QvQj.png') repeat, linear-gradient(135deg, #e7c49a 0%, #b97a56 100%);
+        background-size: 80px 80px, 100% 100%;
+        border: 4px solid #a05a2c;
+        border-radius: 18px;
+        box-shadow: 0 4px 24px rgba(186,107,54,0.18), 0 0 0 8px #e7c49a inset;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        position: relative;
+        overflow: visible !important;
+        display: flex;
+        flex-direction: column;
+        height: 100vh !important;
+    }
+    .stSidebarContent {
+        flex: 1 1 auto !important;
+        height: 100% !important;
+        max-height: 100vh !important;
+        overflow-y: auto !important;
+            padding-bottom: 60px;
+                scrollbar-width: auto;
+                scrollbar-color: #B86C4C;
+        }
+        </style>
+        """)
