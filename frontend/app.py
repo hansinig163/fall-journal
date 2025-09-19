@@ -49,6 +49,7 @@ def login_ui():
     st.markdown(
         """
         <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
         body, .stApp {
             background: 
                 repeating-linear-gradient(0deg, #fffbe9 0, #fffbe9 4px, transparent 4px, transparent 40px),
@@ -78,97 +79,22 @@ def login_ui():
             border: 2.5px solid #f7e3c2;
             position: relative;
         }
-        .pastel-login-card h2 {
-            font-family: 'Comic Sans MS', 'Georgia', cursive, sans-serif;
-            color: #b97a56;
-            font-size: 1.6em;
-            text-align: center;
-            margin-bottom: 0.7em;
-        }
-        .pastel-login-card label, .pastel-login-card input {
-            font-family: 'Comic Sans MS', 'Georgia', cursive, sans-serif;
-        }
-        .pastel-login-card input {
-            width: 100%;
-            padding: 0.7em 1.2em;
-            margin-bottom: 1.1em;
-            border-radius: 16px;
-            border: 2px solid #f7e3c2;
-            background: #fffbe9;
-            font-size: 1.1em;
-            color: #b97a56;
-            outline: none;
-            transition: border 0.2s, box-shadow 0.2s;
-            box-shadow: 0 2px 8px rgba(255, 200, 120, 0.08);
-        }
-        .pastel-login-card input:focus {
-            border: 2px solid #e2b07a;
-            background: #fff7e0;
-            box-shadow: 0 4px 16px #ffe7c2;
-        }
-        .pastel-login-btn {
-            width: 100%;
-            background: linear-gradient(90deg, #ffd9a0 60%, #ffe7c2 100%);
-            color: #b97a56;
-            font-size: 1.15em;
-            font-family: 'Comic Sans MS', 'Georgia', cursive, sans-serif;
-            font-weight: bold;
-            border: none;
-            border-radius: 18px;
-            padding: 0.7em 0;
-            margin-top: 0.2em;
-            margin-bottom: 0.2em;
-            box-shadow: 0 2px 8px rgba(186,107,54,0.10), 0 0 0 4px #ffe7c2 inset;
-            cursor: pointer;
-            transition: 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        .pastel-login-btn:hover {
-            background: linear-gradient(90deg, #ffe7c2 60%, #ffd9a0 100%);
-            filter: brightness(1.06);
-            box-shadow: 0 4px 16px #ffe7c2;
-        }
         .pastel-login-card .emoji-header {
             font-size: 2.2em;
             text-align: center;
             margin-bottom: 0.2em;
-        }
-        .cozy-title {
-            font-family: 'Comic Sans MS', 'Georgia', cursive, sans-serif;
-            color: #b97a56;
-            font-size: 2em;
-            text-align: center;
-            margin-bottom: 0.5em;
-            margin-top: 0.2em;
-            letter-spacing: 1px;
-        }
-        .cozy-phrase {
-            font-family: 'Comic Sans MS', 'Georgia', cursive, sans-serif;
-            color: #b97a56;
-            font-size: 1.1em;
-            text-align: center;
-            margin-bottom: 1.2em;
             margin-top: -0.5em;
         }
-        .fall-img-box {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 1.2em;
-        }
-        .fall-img-inner {
+        .pastel-login-card .fall-img-inner {
             background: #fffbe9;
             border-radius: 22px;
             box-shadow: 0 4px 24px #ffe7c2, 0 0 0 6px #ffe7c2 inset;
             border: 3px solid #e2b07a;
             padding: 0.5em;
             max-width: 340px;
-            margin: 0 auto;
+            margin: 0.5em auto 0.5em auto;
         }
-        .fall-img-inner img {
+        .pastel-login-card .fall-img-inner img {
             width: 100%;
             height: 120px;
             object-fit: cover;
@@ -176,23 +102,72 @@ def login_ui():
             box-shadow: 0 2px 12px #e2b07a44;
             border: 2px solid #ffe7c2;
         }
-        .fall-leaf-pastel {
-            position: fixed;
-            z-index: 1;
-            pointer-events: none;
-            animation: fall-leaf-pastel 8s linear infinite;
-            opacity: 0.7;
+        .pastel-login-card .elegant-heading {
+            font-family: 'Playfair Display', 'Georgia', serif;
+            color: #b97a56;
+            font-size: 2.1em;
+            text-align: center;
+            margin-bottom: 0.2em;
+            margin-top: 0.2em;
+            letter-spacing: 1px;
+            font-weight: 700;
         }
-        @keyframes fall-leaf-pastel {
-            0% { transform: translateY(-60px) rotate(-10deg); opacity: 0.7; }
-            70% { opacity: 1; }
-            100% { transform: translateY(100vh) rotate(30deg); opacity: 0.2; }
+        /* Pixel input fields */
+        .pixel-input {
+            font-family: 'Press Start 2P', 'Comic Sans MS', cursive, sans-serif !important;
+            background: #fffbe9;
+            border: 3px solid #e2b07a !important;
+            border-radius: 10px !important;
+            box-shadow: 0 2px 0 #ffe7c2, 0 0 0 4px #ffe7c2 inset;
+            font-size: 1em !important;
+            color: #b97a56 !important;
+            padding: 0.7em 1.2em !important;
+            margin-bottom: 1.1em !important;
+            outline: none !important;
+            transition: border 0.2s, box-shadow 0.2s;
+            letter-spacing: 1px;
+            animation: pixel-pop 0.6s;
         }
-        .fall-leaf-pastel1 { left: 12%; font-size: 2.1em; animation-delay: 0s; }
-        .fall-leaf-pastel2 { left: 55%; font-size: 1.7em; animation-delay: 2s; }
-        .fall-leaf-pastel3 { left: 35%; font-size: 2.5em; animation-delay: 3.5s; }
-        .fall-leaf-pastel4 { left: 80%; font-size: 1.5em; animation-delay: 1.2s; }
-        .fall-leaf-pastel5 { left: 25%; font-size: 1.8em; animation-delay: 4.2s; }
+        .pixel-input:focus {
+            border: 3px solid #ffb347 !important;
+            background: #fff7e0 !important;
+            box-shadow: 0 4px 16px #ffe7c2;
+        }
+        @keyframes pixel-pop {
+            0% { box-shadow: 0 0 0 #ffe7c2; }
+            60% { box-shadow: 0 0 8px #ffe7c2; }
+            100% { box-shadow: 0 2px 0 #ffe7c2, 0 0 0 4px #ffe7c2 inset; }
+        }
+        /* Pixel button */
+        .pixel-btn {
+            background: url('https://i.imgur.com/6Q8QvQj.png') repeat, linear-gradient(90deg, #ffd9a0 60%, #ffe7c2 100%);
+            background-size: 40px 40px, 100% 100%;
+            border: 3px solid #a05a2c;
+            border-radius: 12px;
+            color: #B86B36;
+            font-size: 1.08em;
+            font-family: 'Press Start 2P', 'Comic Sans MS', cursive, sans-serif;
+            font-weight: bold;
+            padding: 0.7em 1.2em;
+            margin-top: 2px;
+            margin-bottom: 2px;
+            box-shadow: 0 2px 8px rgba(186,107,54,0.18), 0 0 0 4px #ffe7c2 inset;
+            cursor: pointer;
+            transition: 0.2s;
+            outline: none !important;
+            text-shadow: 1px 1px #fffbe9, 2px 2px #E2B07A;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            animation: pixel-pop 0.6s;
+        }
+        .pixel-btn:hover {
+            background: url('https://i.imgur.com/6Q8QvQj.png') repeat, linear-gradient(90deg, #ffe7c2 60%, #ffd9a0 100%);
+            filter: brightness(1.08);
+            border-color: #ffb347;
+            box-shadow: 0 4px 16px #ffe7c2;
+        }
         .pop-anim {
             animation: pop-anim 0.25s cubic-bezier(.68,-0.55,.27,1.55);
         }
@@ -236,39 +211,77 @@ def login_ui():
         """,
         unsafe_allow_html=True
     )
-    # --- Fall image box ---
     assets_dir = Path(__file__).parent / "assets"
     header_img_path = assets_dir / "fall.jpg"
+    img_html = ""
     if header_img_path.exists():
         import base64
         img_bytes = header_img_path.read_bytes()
         img_b64 = base64.b64encode(img_bytes).decode()
-        st.markdown(
-            f"""
-            <div class="fall-img-box">
-                <div class="fall-img-inner">
-                    <img src="data:image/jpg;base64,{img_b64}" alt="Cozy Fall" />
-                </div>
+        img_html = f"""
+            <div class="fall-img-inner">
+                <img src="data:image/jpg;base64,{img_b64}" alt="Cozy Fall" />
             </div>
-            """,
-            unsafe_allow_html=True
-        )
-    st.markdown('<div class="cozy-title">Cozy Fall Journal 🍂</div>', unsafe_allow_html=True)
-    st.markdown('<div class="cozy-phrase">Reflect, Relax, and Rejuvenate in your personal online journal.<br>☕🍂🍁🌰</div>', unsafe_allow_html=True)
+        """
     tab_login, tab_register = st.tabs(["☕ Login", "🍁 Register"])
     with tab_login:
         st.markdown(
-            """
+            f"""
             <div class="pastel-login-card">
-                <div class="emoji-header">☕🍂🍁🌰</div>
-                <h2>Welcome Back!</h2>
+                <div class="emoji-header">🍁🍂☕🌰</div>
+                {img_html}
+                <div class="elegant-heading">Cozy Fall Journal</div>
+                <div class="emoji-header">🍁🍂☕🌰</div>
             </div>
             """,
             unsafe_allow_html=True
         )
-        username = st.text_input("👤 Username", key="login_username", placeholder="👤 username")
-        password = st.text_input("🔑 Password", type="password", key="login_password", placeholder="🔑 password")
+        username = st.text_input("👤 Username", key="login_username", placeholder="👤 username", label_visibility="collapsed")
+        password = st.text_input("🔑 Password", type="password", key="login_password", placeholder="🔑 password", label_visibility="collapsed")
+        st.markdown(
+            """
+            <style>
+            /* Patch Streamlit input fields to pixel style */
+            [data-testid="stTextInput"] input, [data-testid="stTextArea"] textarea {
+                font-family: 'Press Start 2P', 'Comic Sans MS', cursive, sans-serif !important;
+                background: #fffbe9;
+                border: 3px solid #e2b07a !important;
+                border-radius: 10px !important;
+                box-shadow: 0 2px 0 #ffe7c2, 0 0 0 4px #ffe7c2 inset;
+                font-size: 1em !important;
+                color: #b97a56 !important;
+                padding: 0.7em 1.2em !important;
+                margin-bottom: 1.1em !important;
+                outline: none !important;
+                transition: border 0.2s, box-shadow 0.2s;
+                letter-spacing: 1px;
+                animation: pixel-pop 0.6s;
+            }
+            [data-testid="stTextInput"] input:focus, [data-testid="stTextArea"] textarea:focus {
+                border: 3px solid #ffb347 !important;
+                background: #fff7e0 !important;
+                box-shadow: 0 4px 16px #ffe7c2;
+            }
+            </style>
+            """,
+            unsafe_allow_html=True
+        )
         login_btn = st.button("☕  Login", key="login_btn", help="Login to your cozy journal!", use_container_width=True)
+        # Patch the button to have pixel-btn class
+        st.markdown(
+            """
+            <script>
+            window.addEventListener('DOMContentLoaded', function() {
+                document.querySelectorAll('button').forEach(btn => {
+                    if (btn.innerText.includes("Login") && !btn.classList.contains('pixel-btn')) {
+                        btn.classList.add('pixel-btn');
+                    }
+                });
+            });
+            </script>
+            """,
+            unsafe_allow_html=True
+        )
         if login_btn:
             if login_user(username, password):
                 st.session_state["user"] = username
@@ -279,17 +292,60 @@ def login_ui():
                 st.error("Invalid username or password.")
     with tab_register:
         st.markdown(
-            """
+            f"""
             <div class="pastel-login-card">
                 <div class="emoji-header">🍁🍂🌰☕</div>
-                <h2>Register for Cozy Journal</h2>
+                {img_html}
+                <div class="elegant-heading">Cozy Fall Journal</div>
+                <div class="emoji-header">🍁🍂☕🌰</div>
             </div>
             """,
             unsafe_allow_html=True
         )
-        new_username = st.text_input("👤 New Username", key="register_username", placeholder="👤 new username")
-        new_password = st.text_input("🔑 New Password", type="password", key="register_password", placeholder="🔑 new password")
+        new_username = st.text_input("👤 New Username", key="register_username", placeholder="👤 new username", label_visibility="collapsed")
+        new_password = st.text_input("🔑 New Password", type="password", key="register_password", placeholder="🔑 new password", label_visibility="collapsed")
+        st.markdown(
+            """
+            <style>
+            [data-testid="stTextInput"] input, [data-testid="stTextArea"] textarea {
+                font-family: 'Press Start 2P', 'Comic Sans MS', cursive, sans-serif !important;
+                background: #fffbe9;
+                border: 3px solid #e2b07a !important;
+                border-radius: 10px !important;
+                box-shadow: 0 2px 0 #ffe7c2, 0 0 0 4px #ffe7c2 inset;
+                font-size: 1em !important;
+                color: #b97a56 !important;
+                padding: 0.7em 1.2em !important;
+                margin-bottom: 1.1em !important;
+                outline: none !important;
+                transition: border 0.2s, box-shadow 0.2s;
+                letter-spacing: 1px;
+                animation: pixel-pop 0.6s;
+            }
+            [data-testid="stTextInput"] input:focus, [data-testid="stTextArea"] textarea:focus {
+                border: 3px solid #ffb347 !important;
+                background: #fff7e0 !important;
+                box-shadow: 0 4px 16px #ffe7c2;
+            }
+            </style>
+            """,
+            unsafe_allow_html=True
+        )
         register_btn = st.button("☕  Register", key="register_btn", help="Create your cozy account!", use_container_width=True)
+        st.markdown(
+            """
+            <script>
+            window.addEventListener('DOMContentLoaded', function() {
+                document.querySelectorAll('button').forEach(btn => {
+                    if (btn.innerText.includes("Register") && !btn.classList.contains('pixel-btn')) {
+                        btn.classList.add('pixel-btn');
+                    }
+                });
+            });
+            </script>
+            """,
+            unsafe_allow_html=True
+        )
         if register_btn:
             ok, msg = register_user(new_username, new_password)
             if ok:
