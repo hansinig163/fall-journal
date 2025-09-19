@@ -50,7 +50,14 @@ def login_ui():
         """
         <style>
         body, .stApp {
-            background: linear-gradient(120deg, #fffbe9 0%, #ffe7c2 100%);
+            background: 
+                repeating-linear-gradient(0deg, #fffbe9 0, #fffbe9 4px, transparent 4px, transparent 40px),
+                repeating-linear-gradient(90deg, #fffbe9 0, #fffbe9 4px, transparent 4px, transparent 40px),
+                repeating-linear-gradient(0deg, #FFE5B4 0, #FFE5B4 2px, transparent 2px, transparent 20px),
+                repeating-linear-gradient(90deg, #FFE5B4 0, #FFE5B4 2px, transparent 2px, transparent 20px),
+                linear-gradient(120deg, #fffbe9 0%, #ffe7c2 100%);
+            background-size: 40px 40px, 40px 40px, 20px 20px, 20px 20px, 100% 100%;
+            background-position: 0 0, 0 0, 0 0, 0 0, 0 0;
         }
         .pastel-login-bg {
             min-height: 100vh;
@@ -58,16 +65,16 @@ def login_ui():
             position: fixed;
             top: 0; left: 0;
             z-index: 0;
-            background: linear-gradient(120deg, #fffbe9 0%, #ffe7c2 100%);
+            background: transparent;
             overflow: hidden;
         }
         .pastel-login-card {
             background: rgba(255, 250, 235, 0.98);
             border-radius: 28px;
-            box-shadow: 0 8px 32px rgba(186,107,54,0.10), 0 0 0 8px #ffe7c2 inset;
+            box-shadow: 0 8px 32px rgba(186,107,54,0.13), 0 0 0 8px #ffe7c2 inset;
             padding: 2.5em 2em 2em 2em;
-            max-width: 370px;
-            margin: 60px auto 0 auto;
+            max-width: 410px;
+            margin: 32px auto 0 auto;
             border: 2.5px solid #f7e3c2;
             position: relative;
         }
@@ -85,17 +92,19 @@ def login_ui():
             width: 100%;
             padding: 0.7em 1.2em;
             margin-bottom: 1.1em;
-            border-radius: 12px;
+            border-radius: 16px;
             border: 2px solid #f7e3c2;
             background: #fffbe9;
             font-size: 1.1em;
             color: #b97a56;
             outline: none;
-            transition: border 0.2s;
+            transition: border 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 8px rgba(255, 200, 120, 0.08);
         }
         .pastel-login-card input:focus {
             border: 2px solid #e2b07a;
             background: #fff7e0;
+            box-shadow: 0 4px 16px #ffe7c2;
         }
         .pastel-login-btn {
             width: 100%;
@@ -105,7 +114,7 @@ def login_ui():
             font-family: 'Comic Sans MS', 'Georgia', cursive, sans-serif;
             font-weight: bold;
             border: none;
-            border-radius: 16px;
+            border-radius: 18px;
             padding: 0.7em 0;
             margin-top: 0.2em;
             margin-bottom: 0.2em;
@@ -120,6 +129,7 @@ def login_ui():
         .pastel-login-btn:hover {
             background: linear-gradient(90deg, #ffe7c2 60%, #ffd9a0 100%);
             filter: brightness(1.06);
+            box-shadow: 0 4px 16px #ffe7c2;
         }
         .pastel-login-card .emoji-header {
             font-size: 2.2em;
@@ -142,6 +152,29 @@ def login_ui():
             text-align: center;
             margin-bottom: 1.2em;
             margin-top: -0.5em;
+        }
+        .fall-img-box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1.2em;
+        }
+        .fall-img-inner {
+            background: #fffbe9;
+            border-radius: 22px;
+            box-shadow: 0 4px 24px #ffe7c2, 0 0 0 6px #ffe7c2 inset;
+            border: 3px solid #e2b07a;
+            padding: 0.5em;
+            max-width: 340px;
+            margin: 0 auto;
+        }
+        .fall-img-inner img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 18px;
+            box-shadow: 0 2px 12px #e2b07a44;
+            border: 2px solid #ffe7c2;
         }
         .fall-leaf-pastel {
             position: fixed;
@@ -203,8 +236,25 @@ def login_ui():
         """,
         unsafe_allow_html=True
     )
+    # --- Fall image box ---
+    assets_dir = Path(__file__).parent / "assets"
+    header_img_path = assets_dir / "fall.jpg"
+    if header_img_path.exists():
+        import base64
+        img_bytes = header_img_path.read_bytes()
+        img_b64 = base64.b64encode(img_bytes).decode()
+        st.markdown(
+            f"""
+            <div class="fall-img-box">
+                <div class="fall-img-inner">
+                    <img src="data:image/jpg;base64,{img_b64}" alt="Cozy Fall" />
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
     st.markdown('<div class="cozy-title">Cozy Fall Journal 🍂</div>', unsafe_allow_html=True)
-    st.markdown('<div class="cozy-phrase">Reflect, Relax, and Rejuvenate in your personal online journal.</div>', unsafe_allow_html=True)
+    st.markdown('<div class="cozy-phrase">Reflect, Relax, and Rejuvenate in your personal online journal.<br>☕🍂🍁🌰</div>', unsafe_allow_html=True)
     tab_login, tab_register = st.tabs(["☕ Login", "🍁 Register"])
     with tab_login:
         st.markdown(
