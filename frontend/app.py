@@ -57,11 +57,21 @@ def login_ui():
     else:
         tree_img_html = '<div class="pixel-tree-img" style="width:320px;height:400px;background:#e2b07a;border-radius:18px;box-shadow:0 4px 32px #e2b07a55;display:flex;align-items:center;justify-content:center;font-size:2.5em;">🌳</div>'
 
+    # --- Load fall.jpg as base64 ---
+    fall_img_path = assets_dir / "fall.jpg"
+    if fall_img_path.exists():
+        import base64
+        fall_img_bytes = fall_img_path.read_bytes()
+        fall_img_b64 = base64.b64encode(fall_img_bytes).decode()
+        fall_img_html = f'<img src="data:image/jpg;base64,{fall_img_b64}" class="fall-header-img" alt="Cozy Fall" />'
+    else:
+        fall_img_html = ""
+
     st.markdown(
-        """
+        f"""
         <style>
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap');
-        [data-testid="stAppViewContainer"], .stApp {
+        [data-testid="stAppViewContainer"], .stApp {{
             background: 
                 repeating-linear-gradient(0deg, #fffbe9 0, #fffbe9 4px, transparent 4px, transparent 40px),
                 repeating-linear-gradient(90deg, #fffbe9 0, #fffbe9 4px, transparent 4px, transparent 40px),
@@ -70,8 +80,8 @@ def login_ui():
                 linear-gradient(120deg, #fffbe9 0%, #ffe7c2 100%);
             background-size: 40px 40px, 40px 40px, 20px 20px, 20px 20px, 100% 100%;
             background-position: 0 0, 0 0, 0 0, 0 0, 0 0;
-        }
-        .pixel-login-main {
+        }}
+        .login-flex {{
             display: flex;
             flex-direction: row;
             align-items: flex-start;
@@ -80,80 +90,43 @@ def login_ui():
             width: 100vw;
             position: relative;
             z-index: 2;
-        }
-        .pixel-login-form {
-            background: rgba(255,250,235,0.98);
-            border: 3px solid #e2b07a;
-            border-radius: 18px;
-            box-shadow: 0 8px 32px #e2b07a33, 0 0 0 8px #ffe7c2 inset;
-            padding: 2.5em 2em 2em 2em;
-            max-width: 370px;
-            margin: 60px 0 0 0;
+        }}
+        .login-left {{
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            margin-top: 48px;
             z-index: 3;
             position: relative;
-            font-family: 'Press Start 2P', 'Comic Sans MS', cursive, sans-serif;
-        }
-        .pixel-login-form h2 {
+        }}
+        .login-title {{
             font-family: 'Playfair Display', 'Georgia', serif;
             color: #b97a56;
-            font-size: 2.1em;
+            font-size: 2.3em;
             text-align: center;
-            margin-bottom: 0.7em;
+            margin-bottom: 0.5em;
             margin-top: 0.2em;
             letter-spacing: 1px;
             font-weight: 700;
-        }
-        .pixel-login-form label, .pixel-login-form input {
-            font-family: 'Press Start 2P', 'Comic Sans MS', cursive, sans-serif;
-        }
-        .pixel-login-form input {
-            width: 100%;
-            padding: 0.7em 1.2em;
-            margin-bottom: 1.1em;
-            border-radius: 10px;
+            text-shadow: 0 2px 8px #ffe7c2;
+        }}
+        .fall-header-img {{
+            width: 420px;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 20px;
+            box-shadow: 0 4px 24px #ffe7c2, 0 0 0 6px #ffe7c2 inset;
             border: 3px solid #e2b07a;
-            background: #fffbe9;
-            font-size: 1em;
-            color: #b97a56;
-            outline: none;
-            transition: border 0.2s, box-shadow 0.2s;
-            letter-spacing: 1px;
-            box-shadow: 0 2px 0 #ffe7c2, 0 0 0 4px #ffe7c2 inset;
-        }
-        .pixel-login-form input:focus {
-            border: 3px solid #ffb347;
-            background: #fff7e0;
-            box-shadow: 0 4px 16px #ffe7c2;
-        }
-        .pixel-btn {
-            background: url('https://i.imgur.com/6Q8QvQj.png') repeat, linear-gradient(90deg, #ffd9a0 60%, #ffe7c2 100%);
-            background-size: 40px 40px, 100% 100%;
-            border: 3px solid #a05a2c;
-            border-radius: 12px;
-            color: #B86B36;
-            font-size: 1.08em;
-            font-family: 'Press Start 2P', 'Comic Sans MS', cursive, sans-serif;
-            font-weight: bold;
-            padding: 0.7em 1.2em;
-            margin-top: 2px;
-            margin-bottom: 2px;
-            box-shadow: 0 2px 8px rgba(186,107,54,0.18), 0 0 0 4px #ffe7c2 inset;
-            cursor: pointer;
-            transition: 0.2s;
-            outline: none !important;
-            text-shadow: 1px 1px #fffbe9, 2px 2px #E2B07A;
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .pixel-btn:hover {
-            background: url('https://i.imgur.com/6Q8QvQj.png') repeat, linear-gradient(90deg, #ffe7c2 60%, #ffd9a0 100%);
-            filter: brightness(1.08);
-            border-color: #ffb347;
-            box-shadow: 0 4px 16px #ffe7c2;
-        }
-        .pixel-tree-img {
+            margin-bottom: 1.5em;
+        }}
+        .login-form-box {{
+            width: 100%;
+            max-width: 370px;
+            margin-top: 1.5em;
+        }}
+        .pixel-tree-img {{
             width: 340px;
             height: 420px;
             opacity: 0.62;
@@ -164,40 +137,85 @@ def login_ui():
             background: transparent;
             position: relative;
             z-index: 2;
-        }
-        .fall-leaf-particle {
+        }}
+        .pixel-tree-side {{
+            flex: 1;
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-end;
+            min-height: 90vh;
+        }}
+        /* Falling leaf sprites overlaying tree edge */
+        .fall-leaf-particle {{
             position: fixed;
             z-index: 3;
             pointer-events: none;
             opacity: 0.85;
             animation: fall-leaf-particle 8s linear infinite;
-        }
-        @keyframes fall-leaf-particle {
-            0% { transform: translateY(-60px) rotate(-10deg); opacity: 0.8; }
-            70% { opacity: 1; }
-            100% { transform: translateY(100vh) rotate(30deg); opacity: 0.2; }
-        }
-        .fall-leaf-particle1 { right: 10vw; font-size: 2.6em; animation-delay: 0s; }
-        .fall-leaf-particle2 { right: 16vw; font-size: 2.2em; animation-delay: 2s; }
-        .fall-leaf-particle3 { right: 22vw; font-size: 2.8em; animation-delay: 3.5s; }
-        .fall-leaf-particle4 { right: 28vw; font-size: 2em; animation-delay: 1.2s; }
-        .fall-leaf-particle5 { right: 13vw; font-size: 2.3em; animation-delay: 4.2s; }
-        .fall-leaf-particle6 { right: 25vw; font-size: 2.1em; animation-delay: 5.1s; }
-        .pop-anim {
+        }}
+        @keyframes fall-leaf-particle {{
+            0% {{ transform: translateY(-60px) rotate(-10deg); opacity: 0.8; }}
+            70% {{ opacity: 1; }}
+            100% {{ transform: translateY(100vh) rotate(30deg); opacity: 0.2; }}
+        }}
+        .fall-leaf-particle1 {{ right: 10vw; font-size: 2.6em; animation-delay: 0s; }}
+        .fall-leaf-particle2 {{ right: 16vw; font-size: 2.2em; animation-delay: 2s; }}
+        .fall-leaf-particle3 {{ right: 22vw; font-size: 2.8em; animation-delay: 3.5s; }}
+        .fall-leaf-particle4 {{ right: 28vw; font-size: 2em; animation-delay: 1.2s; }}
+        .fall-leaf-particle5 {{ right: 13vw; font-size: 2.3em; animation-delay: 4.2s; }}
+        .fall-leaf-particle6 {{ right: 25vw; font-size: 2.1em; animation-delay: 5.1s; }}
+        .pop-anim {{
             animation: pop-anim 0.25s cubic-bezier(.68,-0.55,.27,1.55);
-        }
+        }}
         @keyframes pop-anim {
             0% { transform: scale(1);}
             50% { transform: scale(1.13);}
             100% { transform: scale(1);}
         }
         </style>
-        <div class="pixel-login-main">
-            <div class="pixel-login-form">
-                <h2>Cozy Fall Journal</h2>
+        <div class="login-flex">
+            <div class="login-left">
+                <div class="login-title">Cozy Fall Journal</div>
+                {fall_img_html}
+                <div class="login-form-box">
+        """,
+        unsafe_allow_html=True
+    )
+
+    # Login and Register Tabs
+    tab_login, tab_register = st.tabs(["☕ Login", "🍁 Register"])
+    with tab_login:
+        username = st.text_input("Username", key="login_username")
+        password = st.text_input("Password", type="password", key="login_password")
+        login_btn = st.button("☕  Login", key="login_btn", help="Login to your cozy journal!", use_container_width=True)
+        if login_btn:
+            if login_user(username, password):
+                st.session_state["user"] = username
+                calming_transition()
+                st.success("Login successful! 🍁")
+                st.rerun()
+            else:
+                st.error("Invalid username or password.")
+    with tab_register:
+        new_username = st.text_input("New Username", key="register_username")
+        new_password = st.text_input("New Password", type="password", key="register_password")
+        register_btn = st.button("☕  Register", key="register_btn", help="Create your cozy account!", use_container_width=True)
+        if register_btn:
+            ok, msg = register_user(new_username, new_password)
+            if ok:
+                st.success(msg)
+                st.session_state["user"] = new_username
+                calming_transition()
+                st.rerun()
+            else:
+                st.error(msg)
+
+    st.markdown(
+        """
+                </div>
             </div>
-            <div style="flex:1;display:flex;align-items:flex-end;justify-content:flex-end;">
-                """ + tree_img_html + """
+            <div class="pixel-tree-side">
+                {tree_img_html}
             </div>
         </div>
         <div class="fall-leaf-particle fall-leaf-particle1">🍂</div>
@@ -217,7 +235,7 @@ def login_ui():
             });
         });
         </script>
-        """,
+        """.format(tree_img_html=tree_img_html),
         unsafe_allow_html=True
     )
     st.markdown(
