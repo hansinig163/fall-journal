@@ -55,11 +55,11 @@ def login_ui():
         tree_img_b64 = base64.b64encode(tree_img_bytes).decode()
         tree_img_html = f'<img src="data:image/png;base64,{tree_img_b64}" class="pixel-tree-img" alt="Pixel Fall Tree" />'
     else:
-        # fallback placeholder
         tree_img_html = '<div class="pixel-tree-img" style="width:320px;height:400px;background:#e2b07a;border-radius:18px;box-shadow:0 4px 32px #e2b07a55;display:flex;align-items:center;justify-content:center;font-size:2.5em;">🌳</div>'
 
+    # Use triple quotes for the CSS block, and use .format() instead of f-string to avoid curly brace issues
     st.markdown(
-        f"""
+        """
         <style>
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap');
         [data-testid="stAppViewContainer"], .stApp {{
@@ -188,11 +188,11 @@ def login_ui():
         .pop-anim {{
             animation: pop-anim 0.25s cubic-bezier(.68,-0.55,.27,1.55);
         }}
-        @keyframes pop-anim {
-            0% { transform: scale(1);}
-            50% { transform: scale(1.13);}
-            100% { transform: scale(1);}
-        }
+        @keyframes pop-anim {{
+            0% {{ transform: scale(1);}}
+            50% {{ transform: scale(1.13);}}
+            100% {{ transform: scale(1);}}
+        }}
         </style>
         <div class="pixel-login-main">
             <div class="pixel-login-form">
@@ -222,7 +222,7 @@ def login_ui():
             }});
         }});
         </script>
-        """,
+        """.format(tree_img_html=tree_img_html),
         unsafe_allow_html=True
     )
     st.markdown(
