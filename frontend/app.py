@@ -44,7 +44,7 @@ def calming_transition():
     import time
     time.sleep(1.2)
 
-# --- Pastel Fall-Themed Login UI with Lo-fi Music ---
+# --- Pastel Fall-Themed Login UI with Pixel Tree, Falling Leaves, and Lofi Music ---
 def login_ui():
     # --- Load pixel tree image as base64 ---
     assets_dir = Path(__file__).parent / "assets"
@@ -57,12 +57,11 @@ def login_ui():
     else:
         tree_img_html = '<div class="pixel-tree-img" style="width:320px;height:400px;background:#e2b07a;border-radius:18px;box-shadow:0 4px 32px #e2b07a55;display:flex;align-items:center;justify-content:center;font-size:2.5em;">🌳</div>'
 
-    # Use triple quotes for the CSS block, and use .format() instead of f-string to avoid curly brace issues
     st.markdown(
         """
         <style>
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap');
-        [data-testid="stAppViewContainer"], .stApp {{
+        [data-testid="stAppViewContainer"], .stApp {
             background: 
                 repeating-linear-gradient(0deg, #fffbe9 0, #fffbe9 4px, transparent 4px, transparent 40px),
                 repeating-linear-gradient(90deg, #fffbe9 0, #fffbe9 4px, transparent 4px, transparent 40px),
@@ -71,8 +70,8 @@ def login_ui():
                 linear-gradient(120deg, #fffbe9 0%, #ffe7c2 100%);
             background-size: 40px 40px, 40px 40px, 20px 20px, 20px 20px, 100% 100%;
             background-position: 0 0, 0 0, 0 0, 0 0, 0 0;
-        }}
-        .pixel-login-main {{
+        }
+        .pixel-login-main {
             display: flex;
             flex-direction: row;
             align-items: flex-start;
@@ -81,8 +80,8 @@ def login_ui():
             width: 100vw;
             position: relative;
             z-index: 2;
-        }}
-        .pixel-login-form {{
+        }
+        .pixel-login-form {
             background: rgba(255,250,235,0.98);
             border: 3px solid #e2b07a;
             border-radius: 18px;
@@ -93,8 +92,8 @@ def login_ui():
             z-index: 3;
             position: relative;
             font-family: 'Press Start 2P', 'Comic Sans MS', cursive, sans-serif;
-        }}
-        .pixel-login-form h2 {{
+        }
+        .pixel-login-form h2 {
             font-family: 'Playfair Display', 'Georgia', serif;
             color: #b97a56;
             font-size: 2.1em;
@@ -103,11 +102,11 @@ def login_ui():
             margin-top: 0.2em;
             letter-spacing: 1px;
             font-weight: 700;
-        }}
-        .pixel-login-form label, .pixel-login-form input {{
+        }
+        .pixel-login-form label, .pixel-login-form input {
             font-family: 'Press Start 2P', 'Comic Sans MS', cursive, sans-serif;
-        }}
-        .pixel-login-form input {{
+        }
+        .pixel-login-form input {
             width: 100%;
             padding: 0.7em 1.2em;
             margin-bottom: 1.1em;
@@ -120,13 +119,13 @@ def login_ui():
             transition: border 0.2s, box-shadow 0.2s;
             letter-spacing: 1px;
             box-shadow: 0 2px 0 #ffe7c2, 0 0 0 4px #ffe7c2 inset;
-        }}
-        .pixel-login-form input:focus {{
+        }
+        .pixel-login-form input:focus {
             border: 3px solid #ffb347;
             background: #fff7e0;
             box-shadow: 0 4px 16px #ffe7c2;
-        }}
-        .pixel-btn {{
+        }
+        .pixel-btn {
             background: url('https://i.imgur.com/6Q8QvQj.png') repeat, linear-gradient(90deg, #ffd9a0 60%, #ffe7c2 100%);
             background-size: 40px 40px, 100% 100%;
             border: 3px solid #a05a2c;
@@ -147,14 +146,14 @@ def login_ui():
             display: flex;
             align-items: center;
             gap: 8px;
-        }}
-        .pixel-btn:hover {{
+        }
+        .pixel-btn:hover {
             background: url('https://i.imgur.com/6Q8QvQj.png') repeat, linear-gradient(90deg, #ffe7c2 60%, #ffd9a0 100%);
             filter: brightness(1.08);
             border-color: #ffb347;
             box-shadow: 0 4px 16px #ffe7c2;
-        }}
-        .pixel-tree-img {{
+        }
+        .pixel-tree-img {
             width: 340px;
             height: 420px;
             opacity: 0.62;
@@ -165,44 +164,40 @@ def login_ui():
             background: transparent;
             position: relative;
             z-index: 2;
-        }}
-        /* Falling leaf sprites overlaying tree edge */
-        .fall-leaf-particle {{
+        }
+        .fall-leaf-particle {
             position: fixed;
             z-index: 3;
             pointer-events: none;
             opacity: 0.85;
             animation: fall-leaf-particle 8s linear infinite;
-        }}
-        @keyframes fall-leaf-particle {{
-            0% {{ transform: translateY(-60px) rotate(-10deg); opacity: 0.8; }}
-            70% {{ opacity: 1; }}
-            100% {{ transform: translateY(100vh) rotate(30deg); opacity: 0.2; }}
-        }}
-        .fall-leaf-particle1 {{ right: 10vw; font-size: 2.6em; animation-delay: 0s; }}
-        .fall-leaf-particle2 {{ right: 16vw; font-size: 2.2em; animation-delay: 2s; }}
-        .fall-leaf-particle3 {{ right: 22vw; font-size: 2.8em; animation-delay: 3.5s; }}
-        .fall-leaf-particle4 {{ right: 28vw; font-size: 2em; animation-delay: 1.2s; }}
-        .fall-leaf-particle5 {{ right: 13vw; font-size: 2.3em; animation-delay: 4.2s; }}
-        .fall-leaf-particle6 {{ right: 25vw; font-size: 2.1em; animation-delay: 5.1s; }}
-        .pop-anim {{
+        }
+        @keyframes fall-leaf-particle {
+            0% { transform: translateY(-60px) rotate(-10deg); opacity: 0.8; }
+            70% { opacity: 1; }
+            100% { transform: translateY(100vh) rotate(30deg); opacity: 0.2; }
+        }
+        .fall-leaf-particle1 { right: 10vw; font-size: 2.6em; animation-delay: 0s; }
+        .fall-leaf-particle2 { right: 16vw; font-size: 2.2em; animation-delay: 2s; }
+        .fall-leaf-particle3 { right: 22vw; font-size: 2.8em; animation-delay: 3.5s; }
+        .fall-leaf-particle4 { right: 28vw; font-size: 2em; animation-delay: 1.2s; }
+        .fall-leaf-particle5 { right: 13vw; font-size: 2.3em; animation-delay: 4.2s; }
+        .fall-leaf-particle6 { right: 25vw; font-size: 2.1em; animation-delay: 5.1s; }
+        .pop-anim {
             animation: pop-anim 0.25s cubic-bezier(.68,-0.55,.27,1.55);
-        }}
-        @keyframes pop-anim {{
-            0% {{ transform: scale(1);}}
-            50% {{ transform: scale(1.13);}}
-            100% {{ transform: scale(1);}}
-        }}
+        }
+        @keyframes pop-anim {
+            0% { transform: scale(1);}
+            50% { transform: scale(1.13);}
+            100% { transform: scale(1);}
+        }
         </style>
         <div class="pixel-login-main">
             <div class="pixel-login-form">
                 <h2>Cozy Fall Journal</h2>
-                <form>
-                    <!-- Streamlit will render inputs here -->
-                </form>
             </div>
             <div style="flex:1;display:flex;align-items:flex-end;justify-content:flex-end;">
-                {tree_img_html}
+                """ + tree_img_html + """
             </div>
         </div>
         <div class="fall-leaf-particle fall-leaf-particle1">🍂</div>
@@ -212,17 +207,17 @@ def login_ui():
         <div class="fall-leaf-particle fall-leaf-particle5">🍂</div>
         <div class="fall-leaf-particle fall-leaf-particle6">🍃</div>
         <script>
-        window.addEventListener('DOMContentLoaded', function() {{
-            document.querySelectorAll('button').forEach(btn => {{
-                btn.addEventListener('click', function() {{
+        window.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('button').forEach(btn => {
+                btn.addEventListener('click', function() {
                     btn.classList.remove('pop-anim');
                     void btn.offsetWidth;
                     btn.classList.add('pop-anim');
-                }});
-            }});
-        }});
+                });
+            });
+        });
         </script>
-        """.format(tree_img_html=tree_img_html),
+        """,
         unsafe_allow_html=True
     )
     st.markdown(
