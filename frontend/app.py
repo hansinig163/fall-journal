@@ -60,26 +60,47 @@ def login_ui():
             background-size: 40px 40px, 40px 40px, 20px 20px, 20px 20px, 100% 100%;
             background-position: 0 0, 0 0, 0 0, 0 0, 0 0;
         }
-        .autumn-tree-container {
+        .pixel-tree-bg {
             position: fixed;
             left: 0;
             top: 0;
-            width: 48vw;
+            width: 44vw;
             height: 100vh;
-            z-index: 2;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
+            z-index: 1;
             pointer-events: none;
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-start;
         }
-        .autumn-tree-pixelart {
+        .pixel-tree-bg img {
             width: 340px;
             height: 420px;
-            margin-right: 2vw;
-            margin-top: 32px;
-            image-rendering: pixelated;
+            opacity: 0.62;
             filter: drop-shadow(0 8px 32px #e2b07a88);
+            image-rendering: pixelated;
+            margin-left: 2vw;
+            margin-bottom: 0;
+            background: transparent;
         }
+        /* Falling leaf sprites overlaying tree edge */
+        .fall-leaf-particle {
+            position: fixed;
+            z-index: 2;
+            pointer-events: none;
+            opacity: 0.85;
+            animation: fall-leaf-particle 8s linear infinite;
+        }
+        @keyframes fall-leaf-particle {
+            0% { transform: translateY(-60px) rotate(-10deg); opacity: 0.8; }
+            70% { opacity: 1; }
+            100% { transform: translateY(100vh) rotate(30deg); opacity: 0.2; }
+        }
+        .fall-leaf-particle1 { left: 7vw; font-size: 2.6em; animation-delay: 0s; }
+        .fall-leaf-particle2 { left: 13vw; font-size: 2.2em; animation-delay: 2s; }
+        .fall-leaf-particle3 { left: 19vw; font-size: 2.8em; animation-delay: 3.5s; }
+        .fall-leaf-particle4 { left: 25vw; font-size: 2em; animation-delay: 1.2s; }
+        .fall-leaf-particle5 { left: 10vw; font-size: 2.3em; animation-delay: 4.2s; }
+        .fall-leaf-particle6 { left: 22vw; font-size: 2.1em; animation-delay: 5.1s; }
         .cozy-header-img-box {
             display: flex;
             flex-direction: column;
@@ -117,25 +138,6 @@ def login_ui():
             box-shadow: 0 2px 12px #e2b07a44;
             border: 2px solid #ffe7c2;
         }
-        /* Falling leaf particles */
-        .fall-leaf-particle {
-            position: fixed;
-            z-index: 10;
-            pointer-events: none;
-            opacity: 0.85;
-            animation: fall-leaf-particle 8s linear infinite;
-        }
-        @keyframes fall-leaf-particle {
-            0% { transform: translateY(-60px) rotate(-10deg); opacity: 0.8; }
-            70% { opacity: 1; }
-            100% { transform: translateY(100vh) rotate(30deg); opacity: 0.2; }
-        }
-        .fall-leaf-particle1 { left: 10vw; font-size: 2.6em; animation-delay: 0s; }
-        .fall-leaf-particle2 { left: 20vw; font-size: 2.2em; animation-delay: 2s; }
-        .fall-leaf-particle3 { left: 30vw; font-size: 2.8em; animation-delay: 3.5s; }
-        .fall-leaf-particle4 { left: 40vw; font-size: 2em; animation-delay: 1.2s; }
-        .fall-leaf-particle5 { left: 15vw; font-size: 2.3em; animation-delay: 4.2s; }
-        .fall-leaf-particle6 { left: 35vw; font-size: 2.1em; animation-delay: 5.1s; }
         .pop-anim {
             animation: pop-anim 0.25s cubic-bezier(.68,-0.55,.27,1.55);
         }
@@ -145,9 +147,8 @@ def login_ui():
             100% { transform: scale(1);}
         }
         </style>
-        <div class="autumn-tree-container">
-            <img class="autumn-tree-pixelart" src="https://raw.githubusercontent.com/encharm/Font-Awesome-SVG-PNG/master/black/svg/tree.svg" style="filter: drop-shadow(0 0 0 #0000);" />
-            <img class="autumn-tree-pixelart" src="https://i.imgur.com/4vQyQwT.png" alt="Pixel Autumn Tree" />
+        <div class="pixel-tree-bg">
+            <img src="https://i.imgur.com/4vQyQwT.png" alt="Pixel Autumn Tree" />
         </div>
         <div class="fall-leaf-particle fall-leaf-particle1">🍂</div>
         <div class="fall-leaf-particle fall-leaf-particle2">🍁</div>
